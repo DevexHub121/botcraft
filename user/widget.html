@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: white;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-header h3 {
+            flex: 1;
+            font-size: 18px;
+        }
+
+        .bot-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-button {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .send-button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .send-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            width: fit-content;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .welcome-message h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Copyright Footer */
+        .chat-footer {
+            padding: 8px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            display: none;
+        }
+
+        .chat-footer.visible {
+            display: block;
+        }
+
+        .chat-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .chat-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="bot-avatar" id="botAvatar">🤖</div>
+            <h3 id="botName">AI Assistant</h3>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="welcome-message">
+                <h2>👋 Welcome!</h2>
+                <p>I'm your AI assistant. How can I help you today?</p>
+            </div>
+        </div>
+
+        <div class="chat-footer" id="chatFooter">
+            Copyright © 2026. Powered by <a href="https://devexhub.com" target="_blank">DEVEXHUB</a>
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." autocomplete="off">
+            <button class="send-button" id="sendButton">➤</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let agentId = null;
+        let threadId = null;
+        let domainValidated = false;
+
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                agent: params.get('agent'),
+                botname: params.get('botname'),
+                botimage: params.get('botimage'),
+                key: params.get('key'),
+                plan: params.get('plan')
+            };
+        }
+
+        const urlParams = getUrlParams();
+        agentId = urlParams.agent;
+        const domainKey = urlParams.key;
+
+        // Set bot name if provided
+        if (urlParams.botname) {
+            document.getElementById('botName').textContent = decodeURIComponent(urlParams.botname);
+        }
+
+        // Set bot avatar image if provided
+        if (urlParams.botimage) {
+            const avatarEl = document.getElementById('botAvatar');
+            avatarEl.innerHTML = `<img src="${decodeURIComponent(urlParams.botimage)}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+        }
+
+        // Show copyright footer for free plan
+        if (urlParams.plan === 'free') {
+            document.getElementById('chatFooter').classList.add('visible');
+        }
+
+        if (!agentId) {
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="welcome-message">
+                    <h2>⚠️ Configuration Error</h2>
+                    <p>Agent ID is missing. Please check your widget configuration.</p>
+                </div>
+            `;
+        }
+
+        // Validate domain before allowing chat
+        async function validateDomain() {
+            if (!agentId || !domainKey) {
+                // No domain key means no restriction or old widget code
+                domainValidated = true;
+                return true;
+            }
+
+            try {
+                // Try multiple methods to get the parent page domain
+                let parentDomain = '';
+
+                // Method 1: Try parent location
+                try {
+                    parentDomain = window.parent.location.hostname;
+                } catch (e) { }
+
+                // Method 2: Try top location
+                if (!parentDomain) {
+                    try {
+                        parentDomain = window.top.location.hostname;
+                    } catch (e) { }
+                }
+
+                // Method 3: Try referrer
+                if (!parentDomain) {
+                    const referrer = document.referrer;
+                    if (referrer) {
+                        try {
+                            const url = new URL(referrer);
+                            parentDomain = url.hostname;
+                        } catch (e) { }
+                    }
+                }
+
+                // Method 4: Try ancestor origins (for sandboxed iframes)
+                if (!parentDomain && window.location.ancestorOrigins && window.location.ancestorOrigins.length > 0) {
+                    try {
+                        const ancestorUrl = new URL(window.location.ancestorOrigins[0]);
+                        parentDomain = ancestorUrl.hostname;
+                    } catch (e) { }
+                }
+
+                const response = await fetch(`${API_URL}/api/widget/validate?agent=${agentId}&key=${encodeURIComponent(domainKey)}&domain=${encodeURIComponent(parentDomain)}`);
+                const data = await response.json();
+
+                if (data.valid) {
+                    domainValidated = true;
+                    return true;
+                } else {
+                    document.getElementById('chatMessages').innerHTML = `
+                        <div class="welcome-message">
+                            <h2>🚫 Access Denied</h2>
+                            <p>${data.error || 'This widget is not authorized for this domain.'}</p>
+                            <p style="font-size: 12px; color: #999; margin-top: 10px;">Detected domain: ${parentDomain || 'unknown'}</p>
+                        </div>
+                    `;
+                    document.querySelector('.chat-input-container').style.display = 'none';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Domain validation error:', error);
+                // On error, allow access (fail open for better UX)
+                domainValidated = true;
+                return true;
+            }
+        }
+
+        // Initialize domain validation
+        validateDomain();
+
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Add message to chat
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${content}
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator active">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+
+            if (!message || !agentId) return;
+
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+
+            // Disable input
+            chatInput.disabled = true;
+            sendButton.disabled = true;
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            try {
+                const response = await fetch(`${API_URL}/api/chat/${agentId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        thread_id: threadId
+                    })
+                });
+
+                const data = await response.json();
+
+                // Hide typing indicator
+                hideTypingIndicator();
+
+                if (response.ok) {
+                    // Store thread ID
+                    if (!threadId) {
+                        threadId = data.thread_id;
+                    }
+
+                    // Add bot response
+                    addMessage(data.response);
+                } else {
+                    addMessage(`❌ Error: ${data.error || 'Failed to get response'}`);
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                addMessage('❌ Connection error. Please try again.');
+                console.error('Error:', error);
+            } finally {
+                // Enable input
+                chatInput.disabled = false;
+                sendButton.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Focus input on load
+        chatInput.focus();
+
+        // Remove welcome message on first interaction
+        let firstMessage = true;
+        chatInput.addEventListener('focus', () => {
+            if (firstMessage) {
+                const welcome = document.querySelector('.welcome-message');
+                if (welcome) {
+                    welcome.style.display = 'none';
+                }
+                firstMessage = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
