@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="/Botcraft_fav.jpg">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav_sec">
+                <a href="/" class="logo"><img src="/logo.png" alt="BotCraft" style="width: 150px;"><span
+                        style="font-size: 20px;"></span></a>
+                <!-- Hamburger Menu Button (Mobile) -->
+                <button class="hamburger" id="hamburger">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+
+                <!-- Navigation Menu -->
+                <div class="nav-menu" id="navMenu">
+                    <a href="/#features" class="nav-link">Features</a>
+                    <a href="/#pricing" class="nav-link">Plans</a>
+                    <a href="/#how-it-works" class="nav-link">How It Works</a>
+                    <a href="/#faq" class="nav-link">FAQ</a>
+
+                    <!-- Mobile Auth Buttons -->
+                    <div class="mobile-nav-buttons">
+                        <button id="mobileLoginBtn" class="btn" onclick="openModal('login')">
+                            Login / Sign Up
+                        </button>
+                        <button id="mobileGetStartedBtn" class="btn btn-success"
+                            onclick="window.location.href='/#pricing'">
+                            Get Started Free
+                        </button>
+                        <div id="mobileAuthButtons" style="display: none;">
+                            <button id="mobileDashboardBtn" class="btn btn-primary"
+                                onclick="window.location.href='/dashboard'">
+                                Dashboard
+                            </button>
+                            <button id="mobileLogoutBtn" class="btn btn-secondary"
+                                onclick="javascript:void(0); logout();">Logout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Buttons -->
+                <div class="nav-buttons">
+                    <button id="navLoginBtn" class="btn" onclick="openModal('login')">
+                        Login / Sign Up
+                    </button>
+                    <button id="navGetStartedBtn" class="btn btn-success" onclick="window.location.href='/#pricing'">
+                        Get Started Free
+                    </button>
+                    <div id="navAuthButtons" style="display: none;">
+                        <button id="navDashboardBtn" class="btn btn-primary"
+                            onclick="window.location.href='/dashboard'">
+                            Dashboard
+                        </button>
+                        <button id="navLogoutBtn" class="btn btn-secondary"
+                            onclick="javascript:void(0); logout();">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="privacy-section" id="privacy">
+        <div class="container">
+            <!-- Section Title (like your features section) -->
+            <div class="section-title">
+                <h2><span class="text-white">Your Data,</span> <span class="gradient-text">Fully Protected</span></h2>
+                <p>We treat privacy as our core engineering principle — transparent, compliant, and secure by design.
+                </p>
+            </div>
+
+            <!-- Contact row – like a highlighted box with address/email -->
+            <!-- <div class="contact-row">
+                <div class="info">
+                    <span class="address">🏢 Chatbase Inc. · 2261 Market Street STE 85690, San Francisco CA 94114</span>
+                    <div class="email">
+                        <i class="fas fa-envelope"></i> privacy@chatbase.co
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <span class="badge" style="background:#2563eb; color:white; padding:0.5rem 1.2rem; border-radius:40px; font-weight:500;"><i class="fas fa-lock" style="margin-right:6px;"></i>GDPR · SOC2</span>
+                </div>
+            </div> -->
+
+            <!-- privacy feature cards (similar to your feature-card / advantage-card) -->
+            <div class="privacy-grid">
+                <!-- Card 1: Data collection & use -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fas fa-database"></i></div>
+                    <h3><span class="text-white">What we collect & why</span></h3>
+                    <p>Limited to professional info: name, work email, employer, job title. Never sold, only used to
+                        deliver our services.</p>
+                    <ul class="privacy-badge-list">
+                        <li><i class="fas fa-check-circle"></i> name, work address</li>
+                        <li><i class="fas fa-check-circle"></i> work email & phone</li>
+                        <li><i class="fas fa-check-circle"></i> employer / job title</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: Cookies & tracking -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fas fa-cookie-bite"></i></div>
+                    <h3><span class="text-white">Cookies & website</span></h3>
+                    <p>We collect anonymous usage (IP, browser, pages) to improve your experience. Full control via our
+                        <span style="font-weight:500; color:#2563eb;">Cookie Notice</span>.
+                    </p>
+                    <ul class="privacy-badge-list">
+                        <li><i class="fas fa-globe"></i> log files & analytics</li>
+                        <li><i class="fas fa-shield"></i> legitimate interest basis</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Third parties & transfers -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fas fa-share-alt"></i></div>
+                    <h3><span class="text-white">Third‑party sharing</span></h3>
+                    <p>Only with vendors facilitating our service (US‑based cloud). We never reveal data for independent
+                        use without consent or legal requirement.</p>
+                        <!-- <div class="subprocessor-link" style="margin-top:1rem; padding:0.7rem 1.2rem;">
+                            <i class="fas fa-external-link-alt"></i>
+                            <a href="#">trust.chatbase.co/subprocessors</a>
+                        </div> -->
+                </div>
+
+                <!-- Card 4: GDPR rights & access -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fas fa-user-check"></i></div>
+                    <h3><span class="text-white">Your GDPR rights</span></h3>
+                    <p>Right to access, rectification, erasure, portability, objection — all free of charge. Contact our
+                        privacy team.</p>
+                    <ul class="privacy-badge-list">
+                        <li><i class="fas fa-check-circle"></i> right to be informed</li>
+                        <li><i class="fas fa-check-circle"></i> right to restrict processing</li>
+                    </ul>
+                </div>
+
+                <!-- Card 5: Data protection mechanisms -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fas fa-lock"></i></div>
+                    <h3><span class="text-white"> mechanisms</span></h3>
+                    <p>Encryption at rest & in transit, strict access control, rate limiting, domain allowlists. AWS
+                        infrastructure (us‑east‑1).</p>
+                    <ul class="privacy-badge-list">
+                        <li><i class="fas fa-shield-alt"></i> SOC2, GDPR compliant</li>
+                        <li><i class="fas fa-robot"></i> No AI training on your data</li>
+                    </ul>
+                </div>
+
+                <!-- Card 6: Google APIs & no ML training -->
+                <div class="privacy-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="privacy-icon"><i class="fab fa-google"></i></div>
+                    <h3><span class="text-white">Google Workspace APIs</span></h3>
+                    <p>Data from Google APIs is never used to train generalized AI/ML models. Strictly for feature
+                        functionality.</p>
+                    <ul class="privacy-badge-list">
+                        <li><i class="fas fa-check-circle"></i> RAG architecture only</li>
+                        <li><i class="fas fa-check-circle"></i> zero government requests</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- extra legal / transfer info as a compact note -->
+            <div
+                style="margin-top: 3rem; background: #f9f9fc; border-radius: 20px; padding: 1.8rem 2rem; border:1px solid #e2e8f0;">
+                <div
+                    style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                        <i class="fas fa-passport" style="font-size: 2.2rem; color:#3b82f6;"></i>
+                        <span style="font-weight: 500;">Data transfers to U.S. · Standard contractual clauses (SCCs) in
+                            place. Adequacy & Article 46 GDPR.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="BotCraft Logo" style="height: 40px; width: auto;">
+                    </div>
+                    <p class="footer-tagline">
+                        Build AI-powered chatbots that understand your business and delight your customers.
+                    </p>
+                </div>
+
+                <!-- Product Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-menu">
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#pricing">Pricing</a></li>
+                        <li><a href="/#demo">Demo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-menu">
+                        <li><a href="/privacy.html">Privacy</a></li>
+                        <li><a href="/terms.html">Terms</a></li>
+                        <li><a href="/about.html">About us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-item">
+                    <h4>Contact us</h4>
+                    <div class="fotter-address">
+                        <p><i class="fa fa-location-arrow" aria-hidden="true"></i> GR Square, Plot No D-254, 4th Floor,
+                            Phase-8A, Mohali</p>
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> support@BotCraft.com</p>
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> (+91) 9875905952</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 BotCraft. All rights reserved.</p>
+                <div class="contact-email">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:support@BotCraft.com">support@BotCraft.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        }
+
+        backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // Close modal on outside click
+        window.onclick = function (event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize auth state
+        document.addEventListener('DOMContentLoaded', checkLoginState);
+    </script>
+
+    <!-- Authentication Scripts -->
+    <script>
+        let isLoginMode = true;
+        let currentEmail = '';
+        let currentPurpose = 'login';
+        let resendTimerInterval = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const rememberedEmail = localStorage.getItem('rememberedEmail');
+            if (rememberedEmail) {
+                const emailInput = document.getElementById('email');
+                if (emailInput) {
+                    emailInput.value = rememberedEmail;
+                    const rememberCheckbox = document.getElementById('rememberMe');
+                    if (rememberCheckbox) rememberCheckbox.checked = true;
+                }
+            }
+        });
+
+        function handleRememberMe(email) {
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            if (rememberMeCheckbox && rememberMeCheckbox.checked) {
+                localStorage.setItem('rememberedEmail', email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+        }
+
+        function checkLoginState() {
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                updateUIForLoggedInUser();
+            } else {
+                updateUIForLoggedOutUser();
+            }
+        }
+
+        async function updateUIForLoggedInUser() {
+            const token = sessionStorage.getItem('token');
+            let isAdmin = false;
+            let dashboardUrl = 'dashboard.html';
+
+            try {
+                const adminResponse = await fetch('/api/check-admin', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (adminResponse.ok) {
+                    const adminData = await adminResponse.json();
+                    isAdmin = adminData.is_admin;
+                    if (isAdmin) {
+                        dashboardUrl = 'admin_dashboard.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking admin status:', error);
+            }
+
+            if (document.getElementById('navLoginBtn')) document.getElementById('navLoginBtn').style.display = 'none';
+            if (document.getElementById('navGetStartedBtn')) document.getElementById('navGetStartedBtn').style.display = 'none';
+            if (document.getElementById('navAuthButtons')) document.getElementById('navAuthButtons').style.display = 'flex';
+
+            if (document.getElementById('mobileLoginBtn')) document.getElementById('mobileLoginBtn').style.display = 'none';
+            if (document.getElementById('mobileGetStartedBtn')) document.getElementById('mobileGetStartedBtn').style.display = 'none';
+            if (document.getElementById('mobileAuthButtons')) document.getElementById('mobileAuthButtons').style.display = 'flex';
+        }
+
+        function updateUIForLoggedOutUser() {
+            if (document.getElementById('navLoginBtn')) document.getElementById('navLoginBtn').style.display = 'block';
+            if (document.getElementById('navGetStartedBtn')) document.getElementById('navGetStartedBtn').style.display = 'block';
+            if (document.getElementById('navAuthButtons')) document.getElementById('navAuthButtons').style.display = 'none';
+
+            if (document.getElementById('mobileLoginBtn')) document.getElementById('mobileLoginBtn').style.display = 'block';
+            if (document.getElementById('mobileGetStartedBtn')) document.getElementById('mobileGetStartedBtn').style.display = 'block';
+            if (document.getElementById('mobileAuthButtons')) document.getElementById('mobileAuthButtons').style.display = 'none';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // Hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function () {
+                    navMenu.classList.toggle('active');
+                });
+
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
+                    <a href="#"
+                        style="background:white; padding:0.7rem 1.5rem; border-radius:40px; font-weight:500; color:#1e293b; text-decoration:none; border:1px solid #cddffb;"><i
+                            class="fas fa-download" style="margin-right:8px;"></i>DPA</a>
+                </div>
+                <p style="margin-top:1.2rem; color:#475569; font-size:0.95rem;"><i class="fas fa-check-circle"
+                        style="color:#2563eb; margin-right: 8px;"></i>Since founded, Chatbase has received zero
+                    government requests for information.</p>
+            </div>
+
+            <!-- final contact reminder -->
+
+        </div>
+    </section>
+</body>
+
+</html>

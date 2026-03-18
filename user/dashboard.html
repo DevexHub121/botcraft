@@ -1,0 +1,2948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BotCraft</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar Overlay (for mobile) -->
+        <div class="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <a href="/" class="logo-link">
+                    <img src="/logo.png" alt="BotCraft" style="width: 140px; height: auto; display: block;">
+                </a>
+                <button class="sidebar-toggle" onclick="toggleSidebarCollapse()" title="Toggle Sidebar">
+                    <i class="fas fa-angles-left"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li onclick="showSection('agents'); closeMobileMenu();">
+                    <i class="fas fa-chart-bar"></i> <span>My Agents</span>
+                </li>
+                <li onclick="showSection('create'); closeMobileMenu();">
+                    <i class="fas fa-plus-circle"></i> <span>Create Agent</span>
+                </li>
+                <li onclick="showSection('knowledgebase'); closeMobileMenu();">
+                    <i class="fas fa-book"></i> <span>Knowledge Base</span>
+                </li>
+                <li onclick="showSection('billing'); closeMobileMenu();">
+                    <i class="fas fa-credit-card"></i> <span>Billing</span>
+                </li>
+            </ul>
+            <div class="user-info user-dropdown" onclick="toggleUserDropdown(event)">
+                <div style=" display: flex; align-items: center; gap: 15px;">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span id="userName">Loading...</span>
+                </div>
+                <span style="font-size: 12px; margin-left: 5px;">▼</span>
+
+                <div class="dropdown-menu" id="userDropdown">
+                    <div class="user-profile-section">
+                        <div class="user-profile-container">
+                            <div class="user_avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="userinfo">
+                                <div class="user-name" id="dropdownUserName">Karishma Thakur</div>
+                                <div class="user-email-display" id="userEmailDisplay">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-item" style="cursor: default; color: #f59e0b; font-weight: 600;">
+                        <i class="fas fa-crown" style="font-size: 16px; margin-right: 8px;"></i>
+                        <span id="userPlanDisplay">Business Plan</span>
+                    </div>
+
+                    <a href="javascript:void(0)" class="dropdown-item" style="border: none;" onclick="logout()">
+                        <i class="fas fa-sign-out-alt" style="margin-right: 8px; font-size: 16px;"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="main-content">
+            <button class="mobile-sidebar-toggle" onclick="toggleSidebarCollapse()" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header">
+
+                <h1 id="pageTitle">Dashboard</h1>
+
+                <div class="notification">
+                    <div class="notification-wrapper">
+                        <button class="notification-btn" onclick="toggleNotifications()">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge" style="display: none;"></span>
+                        </button>
+
+                        <div class="notifications-dropdown" id="notificationsDropdown">
+                            <div class="notif-header">
+                                <span>Notifications</span>
+                                <button onclick="markAllNotificationsAsRead()"
+                                    style="background: none; border: none; color: #667eea; cursor: pointer; font-size: 12px;">Clear
+                                    All</button>
+                            </div>
+                            <div id="notificationsList">
+                                <div class="empty-notif" style="padding: 20px; text-align: center; color: #999;">
+                                    <p>No new notifications</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="user-info user-dropdown" onclick="toggleUserDropdown(event)">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                        <span style="font-size: 12px; margin-left: 5px;">▼</span>
+
+                        <div class="dropdown-menu" id="userDropdown">
+                            <div class="user-profile-section">
+                                <div class="user-profile-container">
+                                    <div class="user_avatar">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <div class="userinfo">
+                                        <div class="user-name" id="dropdownUserName">Karishma Thakur</div>
+                                        <div class="user-email-display" id="userEmailDisplay">Loading...</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-item" style="cursor: default; color: #f59e0b; font-weight: 600;">
+                                <i class="fas fa-crown" style="font-size: 16px; margin-right: 8px;"></i>
+                                <span id="userPlanDisplay">Business Plan</span>
+                            </div>
+
+                            <a href="javascript:void(0)" class="dropdown-item" style="border: none;" onclick="logout()">
+                                <i class="fas fa-sign-out-alt" style="margin-right: 8px; font-size: 16px;"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
+            <!-- My Agents Section -->
+            <div id="agentsSection" class="section">
+                <div class="agents-layout">
+                    <!-- Left Side - Agents List -->
+                    <div class="agents-list-panel">
+                        <div class="card">
+                            <div class="my-ai">
+                                <h2>My AI Agents</h2>
+                                <button class="create-btn" onclick="showSection('create'); closeMobileMenu();">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Create New Agent
+                                </button>
+                            </div>
+
+                            <div id="agentsGrid" class="agents-grid">
+                                <!-- Agents will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side - Widget Preview -->
+                    <div class="widget-preview-panel" id="widgetPreviewPanel">
+                        <div class="card">
+                            <div class="preview-header">
+                                <h2><i class="fas fa-eye"></i> Live Widget Preview</h2>
+                                <p style="color: #94a3b8; font-size: 14px; margin-top: 5px;">Click on an agent to
+                                    preview its chatbot</p>
+                            </div>
+                            <div id="widgetPreviewContainer" class="widget-preview-container">
+                                <!-- Empty State -->
+                                <div id="previewEmptyState" class="preview-empty-state">
+                                    <i class="fas fa-robot"
+                                        style="font-size: 48px; color: #667eea; margin-bottom: 15px;"></i>
+                                    <h3 style="color: #fff; margin-bottom: 10px;">Select an Agent</h3>
+                                    <p style="color: #94a3b8;">Click on any agent card to see a live preview of your
+                                        chatbot here.</p>
+                                </div>
+                                <!-- Widget iframe will be loaded here -->
+                                <iframe id="widgetPreviewIframe" src=""
+                                    style="display: none; width: 100%; height: 500px; border: none; border-radius: 12px;"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Edit/Detail Section -->
+            <div id="agentDetailSection" class="section hidden">
+                <div class="card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 id="editAgentTitle">Edit Agent</h2>
+                        <button class="btn" onclick="showSection('agents')" style="background: #ffffff;">← Back to
+                            Agents</button>
+                    </div>
+                    <div id="editAgentMessage"></div>
+                    <h3 class="form-section-title">
+                        <i class="fas fa-robot"></i>
+                        Agent Details
+                    </h3>
+                    <!-- Agent Name -->
+                    <div class="form-group">
+                        <label>Agent Name</label>
+                        <input type="text" id="editAgentName" placeholder="Agent Name">
+                    </div>
+
+                    <!-- Bot Display Name (for widget) -->
+                    <div class="form-group">
+                        <label>Bot Display Name (shown in chat widget)</label>
+                        <input type="text" id="editBotDisplayName" placeholder="e.g., Surinder"
+                            oninput="regenerateWidgetCode()">
+                    </div>
+
+                    <!-- Bot Avatar URL -->
+                    <div class="form-group">
+                        <label>Bot Avatar Image</label>
+                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                            <div style="flex: 1;">
+                                <input type="text" id="editBotAvatarUrl" placeholder="https://example.com/avatar.png"
+                                    oninput="regenerateWidgetCode(); updateAvatarPreview();">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <label for="avatarImageUpload" class="btn"
+                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 14px; margin: 0;">
+                                    <i class="fas fa-upload"></i> Upload Image
+                                </label>
+                                <input type="file" id="avatarImageUpload" accept="image/*" style="display: none;"
+                                    onchange="handleAvatarUpload(event)">
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: #999; margin-top: 5px;">Enter a URL or upload an image for
+                            your bot's avatar</p>
+
+                        <!-- Avatar Preview -->
+                        <div id="avatarPreviewContainer" style="margin-top: 10px; display: none;">
+                            <label
+                                style="font-size: 12px; color: #667eea; margin-bottom: 5px; display: block;">Preview:</label>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img id="avatarPreviewImg" src="" alt="Avatar Preview"
+                                    style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #667eea;">
+                                <button type="button" onclick="clearAvatarImage()"
+                                    style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Prompt -->
+                    <div class="form-group">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-comment-dots"></i>
+                            <label>System Prompt / Instructions</label>
+                        </h3>
+
+                        <textarea id="editAgentPrompt" placeholder="Enter system prompt..."
+                            style="min-height: 150px;"></textarea>
+                    </div>
+
+                    <!-- Allowed Domains (Edit) - REQUIRED -->
+                    <div class="form-group">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-globe"></i>
+                            <label> Allowed Domains <span style="color: #e74c3c;">*</span> <span
+                                    id="editDomainCountLabel" style="font-size: 12px; color: #667eea;">(0/<span
+                                        id="editMaxDomains">1</span>)</span></label>
+                        </h3>
+
+                        <div id="editDomainsContainer">
+                            <!-- Domain inputs will be loaded here -->
+                        </div>
+                        <button type="button" id="editAddDomainBtn" class="btn"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 5px;"
+                            onclick="addEditDomainInput()">
+                            + Add More Domain
+                        </button>
+                        <p style="font-size: 12px; color: #999; margin-top: 8px;">
+                            Widget will only work on these domains. At least one domain is required.
+                        </p>
+                        <div id="domainKeyInfo"
+                            style="margin-top: 10px; padding: 10px; border-radius: 8px; border: 1px solid #334155; display: none;">
+                            <strong style="color: #fff;"> Domain Key:</strong>
+                            <code id="displayDomainKey"
+                                style="background: #e8f5e9; padding: 3px 8px; border-radius: 4px; margin-left: 5px; word-break: break-all;"></code>
+                        </div>
+                    </div>
+
+                    <!-- File Search Toggle & Files -->
+                    <div class="form-group">
+                        <label>File Search</label>
+                        <div class="tool-toggle">
+                            <div class="tool-toggle-info">
+                                <span class="tool-toggle-icon"><i class="fas fa-folder"
+                                        style="color: yellow;font-size: 16px;"></i></span>
+                                <div class="tool-toggle-text">
+                                    <h4>Enable File Search</h4>
+                                    <p>File Search allows the chatbot to search through
+                                        uploaded documents and
+                                        provide accurate answers based on your files.</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="editEnableFileSearch" checked
+                                    onchange="toggleEditFileSelection()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Files attached to this agent -->
+                        <div id="editAgentFiles" style="margin-top: 15px; border-radius: 10px;">
+                            <label style="font-weight: 600; margin-bottom: 10px; display: block;">Attached Files</label>
+                            <div id="editAgentFilesList"></div>
+                            <div style="margin-top: 10px;">
+                                <label style="font-weight: 600; margin-bottom: 10px; display: block;">Add Files from
+                                    Knowledge Base</label>
+                                <div id="editKbFilesSelect"
+                                    style="max-height: 150px; overflow-y: auto; border-radius: 8px; padding: 10px; border: 1px solid #334155;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="updateAgent()" style="margin-top: 20px;">💾 Save
+                        Changes</button>
+                </div>
+
+                <!-- Widget Code Card (Hidden until domain is filled) -->
+                <div id="widgetCodeCard" class="card hidden" style="margin-top: 20px;">
+                    <h2>📋 Widget Code</h2>
+                    <p style="color: #94a3b8; margin-bottom: 15px;">Copy this code and paste it into your website to
+                        embed
+                        the chatbot:</p>
+                    <div class="widget-code">
+                        <button class="copy-btn" onclick="copyEditWidgetCode()">📋 Copy Code</button>
+                        <pre id="editWidgetCode"></pre>
+                    </div>
+                </div>
+
+                <!-- Domain Required Message -->
+                <div id="domainRequiredMsg" class="card"
+                    style="margin-top: 20px; background: #fff3cd; border: 1px solid #ffc107;">
+                    <h2>⚠️ Domain Required</h2>
+                    <p style="color: #856404;">Please fill in the "Allowed Domain" field above and save changes to
+                        generate widget code.</p>
+                </div>
+            </div>
+
+            <!-- Create Agent Section -->
+            <div id="createSection" class="section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="header-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h2>Create New AI Agent</h2>
+                            <p class="subtitle">Build your custom AI assistant</p>
+                        </div>
+                    </div>
+                    <div id="createMessage"></div>
+                    <form id="createAgentForm">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-robot"></i>
+                            Agent Details
+                        </h3>
+                        <div class="form-group">
+                            <label for="agentName">Agent Name</label>
+                            <input type="text" id="agentName" placeholder="e.g., Customer Support Bot" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="agentModel">Model</label>
+                            <select id="agentModel">
+                                <option value="">Loading models...</option>
+                            </select>
+                        </div>
+                        <div class="form-group " style="position: relative">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-comment-dots"></i>
+                                <label for="agentPrompt">System Prompt / Instructions</label>
+                            </h3>
+
+                            <textarea id="agentPrompt" placeholder="You are a helpful customer support assistant..."
+                                required></textarea>
+                            <div class="char-count">
+                                <span id="promptCharCount">0</span>/2000
+                            </div>
+                        </div>
+
+                        <!-- Allowed Domains for Widget (REQUIRED) -->
+
+                        <div class="form-group">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-globe"></i>
+                                <label> Allowed Domains <span style="color: #e74c3c;">*</span>
+                                    <span id="domainCountLabel" style="font-size: 12px; color: #667eea;">(0/<span
+                                            id="maxDomains">1</span>)</span></label>
+                            </h3>
+
+                            <div id="domainsContainer">
+                                <div class="domain-input-row" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                    <input type="text" class="domain-input"
+                                        placeholder="e.g., example.com or https://mywebsite.com" required
+                                        style="flex: 1;">
+                                    <button type="button" class="btn"
+                                        style="background: #e74c3c; color: white; padding: 8px 12px;"
+                                        onclick="removeDomainInput(this)" title="Remove">✕</button>
+                                </div>
+                            </div>
+                            <button type="button" id="addDomainBtn" class="btn"
+                                style="background: #7c3aed; color: white; margin-top: 5px;" onclick="addDomainInput()">
+                                + Add More Domain
+                            </button>
+                            <p style="font-size: 12px; color: #999; margin-top: 8px;">
+                                Widget will only work on these domains. At least one domain is required.
+                            </p>
+                        </div>
+
+                        <!-- File Search with integrated file selection -->
+                        <div class="form-group">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-search"></i>
+                                <label>File Search</label>
+
+                            </h3>
+
+
+                            <div class="tool-toggle">
+                                <div class="tool-toggle-info">
+                                    <div class="tool-toggle-text">
+                                        <h4>Enable File Search</h4>
+                                        <p>File Search allows the chatbot to search through
+                                            uploaded documents and
+                                            provide accurate answers based on your files.</p>
+
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="enableFileSearch" checked
+                                        onchange="toggleFileSelection()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- File Selection (shown when File Search is enabled) -->
+                            <div id="fileSelectionGroup"
+                                style="margin-top: 15px; padding: 15px; border-radius: 10px; border: 1px solid #334155">
+                                <label style="font-weight: 600; margin-bottom: 10px; display: block;">Select Files for
+                                    This Agent</label>
+                                <div id="kbFilesSelect"
+                                    style="max-height: 200px; overflow-y: auto; border-radius: 8px; padding: 10px;">
+                                    <p style="color: #999;">Loading files...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create Agent</button>
+                    </form>
+                </div>
+
+                <div id="fileUploadCard" class="card hidden">
+                    <h2>Upload Knowledge Base Files</h2>
+                    <div id="fileMessage"></div>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <p><i class="fas fa-folder" style="color: yellow;"></i> Drag & drop files here or click to
+                            browse</p>
+                        <p style="font-size: 14px; color: #999; margin-top: 10px;">Supported: PDF, TXT, DOCX, CSV</p>
+                        <input type="file" id="fileInput" multiple style="display: none;">
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <div id="widgetCard" class="card hidden">
+                    <h2>Widget Code</h2>
+                    <p>Copy this code and paste it into your website:</p>
+                    <div class="widget-preview">
+                        <div class="widget-code">
+                            <button class="copy-btn" onclick="copyWidgetCode()">Copy</button>
+                            <pre id="widgetCode"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Webhooks Section -->
+            <div id="webhooksSection" class="section hidden">
+                <div class="card">
+                    <h2>Webhook Events</h2>
+                    <div id="webhooksList">
+                        <!-- Webhooks will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Base Section -->
+            <div id="knowledgebaseSection" class="section hidden">
+                <div class="card">
+                    <h2><i class="fas fa-database"></i> Knowledge Base</h2>
+                    <p style="color: #94a3b8; margin-block: 20px; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> Upload files to train your AI agents. These files will be
+                        stored in OpenAI and can be used by your chatbots.
+                    </p>
+                    <div class="kb-layout">
+                        <!-- Upload Area -->
+                        <div class="kb-upload card kb-box">
+                            <div class="file-upload-area" id="kbUploadArea" style="margin-bottom: 30px;">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click or drag files here to upload</p>
+                                <p style="font-size: 12px; color: #999;">
+                                    <i class="fas fa-file-pdf"></i> PDF &nbsp; | &nbsp;
+                                    <i class="fas fa-file-alt"></i> TXT &nbsp; | &nbsp;
+                                    <i class="fas fa-file-word"></i> DOC/DOCX &nbsp; | &nbsp;
+                                    <i class="fas fa-file-code"></i> JSON &nbsp; | &nbsp;
+                                    <i class="fas fa-file-csv"></i> CSV
+                                </p>
+                                <input type="file" id="kbFileInput" multiple style="display: none;"
+                                    accept=".pdf,.txt,.doc,.docx,.json,.csv">
+                            </div>
+                        </div>
+                        <!-- Files List -->
+                        <div class="kb-files card kb-box">
+                            <h3 style="margin-bottom: 15px; color: #fff;"><i class="fas fa-folder-open"></i> Your Files
+                            </h3>
+                            <div id="kbFilesList" class="file-list">
+                                <div class="empty-state" style="text-align: center; padding: 40px; color: #999;">
+                                    <i class="fas fa-file-csv"></i>
+                                    <h4>No files yet</h4>
+                                    <p>Upload your first file to start building your knowledge base</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Billing Section -->
+            <div id="billingSection" class="section hidden">
+                <div class="card">
+                    <h2><i class="fas fa-credit-card"></i> Billing & Subscription</h2>
+
+                    <!-- Current Plan Card -->
+                    <div
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 25px; color: white; margin-bottom: 25px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                            <div>
+                                <h3 style="margin: 0; font-size: 14px; opacity: 0.9;">Current Plan</h3>
+                                <p id="currentPlanName" style="margin: 5px 0 0 0; font-size: 28px; font-weight: 700;">
+                                    Free</p>
+                                <p id="planExpiryDate"
+                                    style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.8; display: none;">Expires: -
+                                </p>
+                            </div>
+                            <div id="planBadge"
+                                style="background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px; font-weight: 600;">
+                                Active
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Usage Stats -->
+                    <h2 style="margin-block: 15px;">
+                        <i class="fas fa-chart-bar" style=""></i>
+                        Usage This Month
+                    </h2>
+                    <div class="stats-row"
+                        style="margin-bottom: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+
+                        <!-- AI Agents Card -->
+                        <div class="stat-card">
+                            <div
+                                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-robot" style="color: white; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <h3>AI Agents
+                                        </h3>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">Active bots</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="value"
+                                style="font-size: 28px; font-weight: 700; color: #333; margin-bottom: 8px;">
+                                <span id="agentUsage" style="color: #667eea;">0</span>/<span id="agentLimit"
+                                    style="color: #999;">1</span>
+                            </div>
+                            <div>
+                                <div id="agentProgress"
+                                    style="height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s ease;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages Card -->
+                        <div class="stat-card">
+                            <div
+                                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-comments" style="color: white; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Messages
+                                        </h3>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">This month</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="value"
+                                style="font-size: 28px; font-weight: 700; color: #333; margin-bottom: 8px;">
+                                <span id="messageUsage" style="color: #06b6d4;">0</span>/<span id="messageLimit"
+                                    style="color: #999;">100</span>
+                            </div>
+                            <div>
+                                <div id="messageProgress"
+                                    style="height: 100%; background: linear-gradient(90deg, #06b6d4, #0ea5e9); width: 0%; transition: width 0.3s ease;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Files Storage Card -->
+                        <div class="stat-card">
+                            <div
+                                style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div
+                                        style="width: 44px; height: 44px; background: linear-gradient(135deg, #10a37f 0%, #059669 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-database" style="color: white; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <h3>File
+                                            Storage</h3>
+                                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8;">KB files</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="value"
+                                style="font-size: 28px; font-weight: 700; color: #333; margin-bottom: 8px;">
+                                <span id="fileUsage" style="color: #10a37f;">0</span>/<span id="fileLimit"
+                                    style="color: #999;">1</span>
+                            </div>
+                            <div>
+                                <div id="fileProgress"
+                                    style="height: 100%; background: linear-gradient(90deg, #10a37f, #059669); width: 0%; transition: width 0.3s ease;">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Upgrade Plans -->
+                    <h2>
+                        <i class="fas fa-rocket"></i>
+                        Upgrade Your Plan
+                    </h2>
+                    <div class="plan-section" id="plan-section">
+
+                        <!-- Pro Plan -->
+                        <div class="stat-card" style="border: 2px solid #667eea; position: relative;">
+                            <div
+                                style="position: absolute; top: -10px; left: 20px; background: #667eea; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                                POPULAR</div>
+                            <h3 style="color: #667eea; font-size: 20px; margin-top: 10px;">Pro Plan</h3>
+                            <p style="font-size: 32px; font-weight: 700; margin: 10px 0;color:white;">$5<span
+                                    style="font-size: 14px; font-weight: 400; color: #888;">/month</span></p>
+                            <ul style="list-style: none; padding: 0; margin: 15px 0; font-size: 14px; color: #555;">
+                                <li style="padding: 6px 0;">✓ 4 AI Agents</li>
+                                <li style="padding: 6px 0;">✓ 15,000 Messages/month</li>
+                                <li style="padding: 6px 0;">✓ Unlimited Files</li>
+                                <li style="padding: 6px 0;">✓ Custom Branding</li>
+                                <li style="padding: 6px 0;">✓ 24/7 Support</li>
+                            </ul>
+                            <div id="proButtonContainer">
+                                <button id="proUpgradeBtn" class="btn btn-primary" style="width: 100%;"
+                                    onclick="upgradePlan('pro')">Upgrade to Pro</button>
+                                <div id="proExpiryTimer"
+                                    style="display: none; text-align: center; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 8px; font-weight: 600;">
+                                    <span style="font-size: 12px;">Plan Expires In</span><br>
+                                    <span id="proTimerDisplay" style="font-size: 18px;">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business Plan -->
+                        <div class="stat-card" style="border: 2px solid #1a1a2e;">
+                            <h3 style="font-size: 20px;">Business Plan</h3>
+                            <p style="font-size: 32px; font-weight: 700; margin: 10px 0;color:white;">$10<span
+                                    style="font-size: 14px; font-weight: 400; color: #888;">/month</span></p>
+                            <ul style="list-style: none; padding: 0; margin: 15px 0; font-size: 14px; color: #555;">
+                                <li style="padding: 6px 0;">✓ 10 AI Agents</li>
+                                <li style="padding: 6px 0;">✓ 40,000 Messages/month</li>
+                                <li style="padding: 6px 0;">✓ Unlimited Files (50MB)</li>
+                                <li style="padding: 6px 0;">✓ Custom Branding</li>
+                                <li style="padding: 6px 0;">✓ Priority Support</li>
+                            </ul>
+                            <div id="businessButtonContainer">
+                                <button id="businessUpgradeBtn" class="btn"
+                                    style="width: 100%; background: #1a1a2e; color: white;"
+                                    onclick="upgradePlan('business')">Upgrade to Business</button>
+                                <div id="businessExpiryTimer"
+                                    style="display: none; text-align: center; padding: 12px; background: linear-gradient(135deg, #1a1a2e, #3a3a5e); color: white; border-radius: 8px; font-weight: 600;">
+                                    <span style="font-size: 12px;">Plan Expires In</span><br>
+                                    <span id="businessTimerDisplay" style="font-size: 18px;">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Agent Widget Code Modal -->
+    <div id="agentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAgentModal()">&times;</span>
+            <h2 id="modalAgentName">Widget Code</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Copy this code and paste it into your website to embed the
+                chatbot:</p>
+            <div class="widget-code">
+                <button class="copy-btn" onclick="copyModalWidgetCode()">📋 Copy Code</button>
+                <pre id="modalWidgetCode"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup Modal -->
+    <div id="successPopup"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center;">
+        <div
+            style="background: white; padding: 40px 60px; border-radius: 15px; text-align: center; animation: popIn 0.3s ease;">
+            <div style="font-size: 60px; margin-bottom: 15px;">✅</div>
+            <h2 id="successPopupTitle" style="color: #10a37f; margin: 0 0 10px 0;">Saved Successfully!</h2>
+            <p id="successPopupMessage" style="color: #94a3b8; margin: 0;">Your changes have been saved.</p>
+        </div>
+    </div>
+
+    <style>
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+
+
+    <script>
+        let currentUser = null;
+        let currentAgentId = null;
+        let selectedAgentId = null;
+        let userPlan = 'free'; // Track user's current plan
+        const API_URL = 'http://localhost:8000';
+
+        // Show centered success popup
+        function showSuccessPopup(title = 'Saved Successfully!', message = 'Your changes have been saved.') {
+            document.getElementById('successPopupTitle').textContent = title;
+            document.getElementById('successPopupMessage').textContent = message;
+            const popup = document.getElementById('successPopup');
+            popup.style.display = 'flex';
+
+            // Auto hide after 2 seconds
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 2000);
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.sidebar-overlay').classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            document.querySelector('.sidebar').classList.remove('active');
+            document.querySelector('.sidebar-overlay').classList.remove('active');
+        }
+
+
+        // Check authentication
+        async function checkAuth() {
+            const token = sessionStorage.getItem('token');
+            const user = sessionStorage.getItem('user');
+
+            if (!token || !user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Check if user is admin and redirect to admin dashboard
+            try {
+                const adminResponse = await fetch(`${API_URL}/api/check-admin`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (adminResponse.ok) {
+                    const adminData = await adminResponse.json();
+                    if (adminData.is_admin) {
+                        window.location.href = '/admin/dashboard';
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking admin status:', error);
+            }
+
+            currentUser = JSON.parse(user);
+            // Convert name to Title Case (first letter of each word capitalized)
+            const titleCaseName = currentUser.name.split(' ').map(word =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).join(' ');
+
+            // Update sidebar/header user info
+            document.getElementById('userName').textContent = titleCaseName;
+            document.getElementById('userAvatar').textContent = titleCaseName.charAt(0).toUpperCase();
+
+            // Update dropdown user info
+            const dropdownNameEl = document.getElementById('dropdownUserName');
+            if (dropdownNameEl) {
+                dropdownNameEl.textContent = titleCaseName;
+            }
+
+            const emailEl = document.getElementById('userEmailDisplay');
+            if (emailEl) {
+                emailEl.textContent = currentUser.email || 'No email';
+            }
+
+            // Load and display user plan
+            loadUserPlan();
+
+            // Check plan expiry on login
+            checkPlanExpiry();
+        }
+
+        // Check if plan is expiring or expired and show notification
+        async function checkPlanExpiry() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/user/plan`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok && data.plan !== 'free' && data.plan_expires_at) {
+                    const expiryDate = new Date(data.plan_expires_at);
+                    const now = new Date();
+                    const daysLeft = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
+
+                    if (daysLeft <= 0) {
+                        // Plan expired
+                        showExpiryNotification('expired', data.plan);
+                    } else if (daysLeft <= 1) {
+                        // 1 day left
+                        showExpiryNotification('expiring', data.plan, daysLeft);
+                    } else if (daysLeft <= 3) {
+                        // 3 days warning
+                        showExpiryNotification('warning', data.plan, daysLeft);
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking plan expiry:', error);
+            }
+        }
+
+        // Show expiry notification banner
+        function showExpiryNotification(type, plan, daysLeft = 0) {
+            // Remove existing notification if any
+            const existing = document.getElementById('expiryNotification');
+            if (existing) existing.remove();
+
+            let message, bgColor;
+            if (type === 'expired') {
+                message = `⚠️ Your ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan has expired! Please renew to continue using premium features.`;
+                bgColor = '#dc3545';
+            } else if (type === 'expiring') {
+                message = `⏰ Your ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan expires in ${daysLeft} day! Renew now to avoid interruption.`;
+                bgColor = '#fd7e14';
+            } else {
+                message = `📅 Your ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan expires in ${daysLeft} days. Consider renewing.`;
+                bgColor = '#ffc107';
+            }
+
+            const notification = document.createElement('div');
+            notification.id = 'expiryNotification';
+            notification.innerHTML = `
+                <div style="background: ${bgColor}; color: white; padding: 12px 20px; text-align: center; font-weight: 500; position: fixed; top: 0; left: 0; right: 0; z-index: 9999; display: flex; justify-content: center; align-items: center; gap: 15px;">
+                    <span>${message}</span>
+                    <button onclick="showSection('billing', event)" style="background: white; color: ${bgColor}; border: none; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-weight: 600;">Renew Now</button>
+                    <button onclick="this.parentElement.remove()" style="background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; margin-left: 10px;">×</button>
+                </div>
+            `;
+            document.body.prepend(notification);
+        }
+
+        // Domain management variables and functions
+        let userDomainLimit = 1;
+
+        // Initialize domain limit based on user's plan
+        async function initDomainLimit() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/user/plan`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    userDomainLimit = data.domain_limit || 1;
+                    document.getElementById('maxDomains').textContent = userDomainLimit;
+                    updateDomainCount();
+                }
+            } catch (error) {
+                console.error('Error loading domain limit:', error);
+            }
+        }
+
+        // Add new domain input
+        function addDomainInput() {
+            const container = document.getElementById('domainsContainer');
+            const currentCount = container.querySelectorAll('.domain-input-row').length;
+
+            if (currentCount >= userDomainLimit) {
+                alert(`You can add up to ${userDomainLimit} domains with your current plan. Upgrade for more!`);
+                return;
+            }
+
+            const newRow = document.createElement('div');
+            newRow.className = 'domain-input-row';
+            newRow.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px;';
+            newRow.innerHTML = `
+                <input type="text" class="domain-input" placeholder="e.g., example.com or https://mywebsite.com" style="flex: 1;">
+                <button type="button" class="btn" style="background: #e74c3c; color: white; padding: 8px 12px;" onclick="removeDomainInput(this)" title="Remove">✕</button>
+            `;
+            container.appendChild(newRow);
+            updateDomainCount();
+        }
+
+        // Remove domain input
+        function removeDomainInput(btn) {
+            const container = document.getElementById('domainsContainer');
+            const rows = container.querySelectorAll('.domain-input-row');
+
+            if (rows.length <= 1) {
+                alert('At least one domain is required.');
+                return;
+            }
+
+            btn.parentElement.remove();
+            updateDomainCount();
+        }
+
+        // Update domain count display
+        function updateDomainCount() {
+            const container = document.getElementById('domainsContainer');
+            const currentCount = container.querySelectorAll('.domain-input-row').length;
+            document.getElementById('domainCountLabel').innerHTML = `(${currentCount}/<span id="maxDomains">${userDomainLimit}</span>)`;
+
+            // Show/hide add button
+            const addBtn = document.getElementById('addDomainBtn');
+            if (currentCount >= userDomainLimit) {
+                addBtn.style.display = 'none';
+            } else {
+                addBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Get all domain values
+        function getAllDomains() {
+            const inputs = document.querySelectorAll('#domainsContainer .domain-input');
+            const domains = [];
+            inputs.forEach(input => {
+                if (input.value.trim()) {
+                    domains.push(input.value.trim());
+                }
+            });
+            return domains;
+        }
+
+        // ===== EDIT AGENT DOMAIN FUNCTIONS =====
+
+        // Add domain input in Edit section
+        function addEditDomainInput() {
+            const container = document.getElementById('editDomainsContainer');
+            const currentCount = container.querySelectorAll('.edit-domain-row').length;
+
+            if (currentCount >= userDomainLimit) {
+                alert(`You can add up to ${userDomainLimit} domains with your current plan. Upgrade for more!`);
+                return;
+            }
+
+            const newRow = document.createElement('div');
+            newRow.className = 'edit-domain-row';
+            newRow.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px;';
+            newRow.innerHTML = `
+                <input type="text" class="edit-domain-input" placeholder="e.g., example.com" style="flex: 1;" oninput="regenerateWidgetCode(); toggleWidgetCodeVisibility();">
+                <button type="button" class="btn" style="background: #e74c3c; color: white; padding: 8px 12px;" onclick="removeEditDomainInput(this)" title="Remove">✕</button>
+            `;
+            container.appendChild(newRow);
+            updateEditDomainCount();
+        }
+
+        // Remove domain input in Edit section
+        function removeEditDomainInput(btn) {
+            const container = document.getElementById('editDomainsContainer');
+            const rows = container.querySelectorAll('.edit-domain-row');
+
+            if (rows.length <= 1) {
+                alert('At least one domain is required.');
+                return;
+            }
+
+            btn.parentElement.remove();
+            updateEditDomainCount();
+            regenerateWidgetCode();
+            toggleWidgetCodeVisibility();
+        }
+
+        // Update Edit domain count display
+        function updateEditDomainCount() {
+            const container = document.getElementById('editDomainsContainer');
+            const currentCount = container.querySelectorAll('.edit-domain-row').length;
+            document.getElementById('editDomainCountLabel').innerHTML = `(${currentCount}/<span id="editMaxDomains">${userDomainLimit}</span>)`;
+
+            const addBtn = document.getElementById('editAddDomainBtn');
+            if (currentCount >= userDomainLimit) {
+                addBtn.style.display = 'none';
+            } else {
+                addBtn.style.display = 'inline-block';
+            }
+        }
+
+        // Populate Edit domain inputs from existing data
+        function populateEditDomains(domains) {
+            const container = document.getElementById('editDomainsContainer');
+            container.innerHTML = '';
+
+            // Ensure domains is an array
+            let domainList = [];
+            if (typeof domains === 'string') {
+                try {
+                    domainList = JSON.parse(domains);
+                } catch {
+                    domainList = domains ? [domains] : [];
+                }
+            } else if (Array.isArray(domains)) {
+                domainList = domains;
+            }
+
+            if (domainList.length === 0) {
+                domainList = [''];  // At least one empty input
+            }
+
+            domainList.forEach((domain, index) => {
+                const row = document.createElement('div');
+                row.className = 'edit-domain-row';
+                row.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px;';
+                row.innerHTML = `
+                    <input type="text" class="edit-domain-input" value="${domain}" placeholder="e.g., example.com" style="flex: 1;" oninput="regenerateWidgetCode(); toggleWidgetCodeVisibility();">
+                    <button type="button" class="btn" style="background: #e74c3c; color: white; padding: 8px 12px;" onclick="removeEditDomainInput(this)" title="Remove">✕</button>
+                `;
+                container.appendChild(row);
+            });
+
+            updateEditDomainCount();
+        }
+
+        // Get all Edit domain values
+        function getAllEditDomains() {
+            const inputs = document.querySelectorAll('#editDomainsContainer .edit-domain-input');
+            const domains = [];
+            inputs.forEach(input => {
+                if (input.value.trim()) {
+                    domains.push(input.value.trim());
+                }
+            });
+            return domains;
+        }
+
+        checkAuth();
+        initDomainLimit();
+
+        // Show section
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+
+            if (section === 'agents') {
+                document.getElementById('agentsSection').classList.remove('hidden');
+                loadAgents();
+            } else if (section === 'create') {
+                document.getElementById('createSection').classList.remove('hidden');
+                loadFilesForSelection(); // Load KB files for selection
+            } else if (section === 'webhooks') {
+                document.getElementById('webhooksSection').classList.remove('hidden');
+                loadWebhooks();
+            } else if (section === 'knowledgebase') {
+                document.getElementById('knowledgebaseSection').classList.remove('hidden');
+                loadKnowledgeBaseFiles();
+            } else if (section === 'agentDetail') {
+                document.getElementById('agentDetailSection').classList.remove('hidden');
+            } else if (section === 'billing') {
+                document.getElementById('billingSection').classList.remove('hidden');
+                loadBillingInfo();
+            }
+
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Load billing info
+        async function loadBillingInfo() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/user/plan`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Update plan name
+                    const planNames = { 'free': 'Free', 'pro': 'Pro', 'business': 'Business' };
+                    document.getElementById('currentPlanName').textContent = planNames[data.plan] || 'Free';
+
+                    // Update expiry date
+                    const expiryEl = document.getElementById('planExpiryDate');
+                    if (data.plan !== 'free' && data.plan_expires_at) {
+                        const date = new Date(data.plan_expires_at);
+                        // Format: Jan 26 2026
+                        const formattedDate = date.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                        });
+                        expiryEl.textContent = `Renews on: ${formattedDate}`;
+                        expiryEl.style.display = 'block';
+                    } else {
+                        expiryEl.style.display = 'none';
+                    }
+
+                    // Update usage stats
+                    document.getElementById('agentUsage').textContent = data.agent_count || 0;
+                    document.getElementById('agentLimit').textContent = data.agent_limit || 1;
+                    document.getElementById('messageUsage').textContent = data.message_count || 0;
+                    document.getElementById('messageLimit').textContent = data.message_limit || 100;
+                    document.getElementById('fileUsage').textContent = data.file_count || 0;
+                    document.getElementById('fileLimit').textContent = data.file_limit === -1 ? '∞' : (data.file_limit || 1);
+
+                    // Handle plan button visibility and countdown timer
+                    const currentPlan = data.plan || 'free';
+                    userPlan = currentPlan; // Store for widget code generation
+                    const expiresAt = data.plan_expires_at ? new Date(data.plan_expires_at) : null;
+
+                    // Pro Plan Card
+                    const proBtn = document.getElementById('proUpgradeBtn');
+                    if (currentPlan === 'pro' && expiresAt) {
+                        proBtn.style.display = 'none';
+                        document.getElementById('proExpiryTimer').style.display = 'block';
+                        startCountdown('proTimerDisplay', expiresAt);
+                    } else {
+                        proBtn.style.display = 'block';
+                        document.getElementById('proExpiryTimer').style.display = 'none';
+                        if (currentPlan === 'business') {
+                            proBtn.textContent = 'Downgrade to Pro';
+                        } else {
+                            proBtn.textContent = 'Upgrade to Pro';
+                        }
+                    }
+
+                    // Business Plan Card
+                    if (currentPlan === 'business' && expiresAt) {
+                        document.getElementById('businessUpgradeBtn').style.display = 'none';
+                        document.getElementById('businessExpiryTimer').style.display = 'block';
+                        startCountdown('businessTimerDisplay', expiresAt);
+                    } else {
+                        document.getElementById('businessUpgradeBtn').style.display = 'block';
+                        document.getElementById('businessExpiryTimer').style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading billing info:', error);
+            }
+        }
+
+        // Store active intervals to clear them when restarting
+        const activeTimers = {};
+
+        // Countdown timer function
+        function startCountdown(elementId, expiryDate) {
+            // Clear existing timer for this element if any
+            if (activeTimers[elementId]) {
+                clearInterval(activeTimers[elementId]);
+            }
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = expiryDate.getTime() - now;
+
+                if (distance < 0) {
+                    document.getElementById(elementId).textContent = 'Expired';
+                    if (activeTimers[elementId]) {
+                        clearInterval(activeTimers[elementId]);
+                        delete activeTimers[elementId];
+                    }
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+
+            updateTimer();
+            activeTimers[elementId] = setInterval(updateTimer, 1000); // Update every second
+        }
+
+        // Upgrade plan with Razorpay (One-time payment)
+        async function upgradePlan(plan) {
+            const token = sessionStorage.getItem('token');
+
+            try {
+                // Create order
+                const orderResponse = await fetch(`${API_URL}/api/create-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ plan })
+                });
+
+                const orderData = await orderResponse.json();
+
+                if (!orderResponse.ok) {
+                    showToast(orderData.error || 'Failed to create order', 'error');
+                    return;
+                }
+
+                // Open Razorpay checkout
+                const options = {
+                    key: orderData.key_id,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    name: 'BotCraft',
+                    description: `Upgrade to ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`,
+                    order_id: orderData.order_id,
+                    handler: async function (response) {
+                        // Verify payment
+                        const verifyResponse = await fetch(`${API_URL}/api/verify-payment`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                plan: plan
+                            })
+                        });
+
+                        const verifyData = await verifyResponse.json();
+
+                        if (verifyResponse.ok) {
+                            showToast(verifyData.message);
+                            loadBillingInfo();
+                        } else {
+                            showToast('Payment verification failed: ' + (verifyData.error || 'Unknown error'), 'error');
+                        }
+                    },
+                    prefill: {
+                        email: currentUser?.email || ''
+                    },
+                    theme: {
+                        color: '#667eea'
+                    }
+                };
+
+                const rzp = new Razorpay(options);
+                rzp.open();
+
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+
+
+        // Load available models from OpenAI
+        // Load available models from OpenAI
+        async function loadModels() {
+            try {
+                const response = await fetch(`${API_URL}/api/models`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const select = document.getElementById('agentModel');
+
+                // Define our 3 specific models
+                const modelConfigs = {
+                    'gpt-4o-mini': {
+                        displayName: 'craftmind-mini',
+                        description: 'Best for general tasks with fast response times and good quality at lower cost. Perfect for everyday use, simple queries, and cost-effective operations.',
+                        icon: 'fa-bolt',
+                        details: [
+                            'Fastest response times',
+                            'Most cost-effective',
+                            'Good for general tasks',
+                            'Lower API costs'
+                        ],
+                        cost: '~$0.15 / 1M tokens'
+                    },
+                    'gpt-4o': {
+                        displayName: 'craftmind-core',
+                        description: 'Excellent balance of speed, intelligence, and cost. The best overall model for most professional use cases and complex conversations.',
+                        icon: 'fa-scale-balanced',
+                        details: [
+                            'Best overall balance',
+                            'Great for conversations',
+                            'High accuracy',
+                            'Reasonable pricing'
+                        ],
+                        cost: '~$5.00 / 1M tokens'
+                    },
+                    'gpt-4-turbo': {
+                        displayName: 'craftmind-ultra',
+                        description: 'Most capable model for complex reasoning, analysis, and advanced tasks. Ideal for research, programming, and sophisticated problem-solving.',
+                        icon: 'fa-brain',
+                        details: [
+                            'Most capable model',
+                            'Advanced reasoning',
+                            'Best for complex tasks',
+                            'Highest accuracy'
+                        ],
+                        cost: '~$30.00 / 1M tokens'
+                    }
+                };
+
+                // Clear and populate dropdown
+                select.innerHTML = '';
+
+                for (const [modelId, config] of Object.entries(modelConfigs)) {
+                    const option = document.createElement('option');
+                    option.value = modelId;
+                    option.textContent = config.displayName;
+                    if (modelId === 'gpt-4o-mini') {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                }
+
+                // Create info button
+                createModelInfoButton(modelConfigs);
+
+            } catch (error) {
+                console.error('Error loading models:', error);
+                // Fallback
+                const select = document.getElementById('agentModel');
+                const modelConfigs = {
+                    'gpt-4o-mini': {
+                        displayName: 'craftmind-mini',
+                        description: 'Best for general tasks with fast response times and good quality at lower cost. Perfect for everyday use, simple queries, and cost-effective operations.',
+                        icon: 'fa-bolt',
+                        details: [
+                            'Fastest response times',
+                            'Most cost-effective',
+                            'Good for general tasks',
+                            'Lower API costs'
+                        ],
+                        cost: '~$0.15 / 1M tokens'
+                    },
+                    'gpt-4o': {
+                        displayName: 'craftmind-core',
+                        description: 'Excellent balance of speed, intelligence, and cost. The best overall model for most professional use cases and complex conversations.',
+                        icon: 'fa-scale-balanced',
+                        details: [
+                            'Best overall balance',
+                            'Great for conversations',
+                            'High accuracy',
+                            'Reasonable pricing'
+                        ],
+                        cost: '~$5.00 / 1M tokens'
+                    },
+                    'gpt-4.1': {
+                        displayName: 'craftmind-ultra',
+                        description: 'Most capable model for complex reasoning, analysis, and advanced tasks. Ideal for research, programming, and sophisticated problem-solving.',
+                        icon: 'fa-brain',
+                        details: [
+                            'Most capable model',
+                            'Advanced reasoning',
+                            'Best for complex tasks',
+                            'Highest accuracy'
+                        ],
+                        cost: '~$30.00 / 1M tokens'
+                    }
+                };
+
+                select.innerHTML = '';
+                for (const [modelId, config] of Object.entries(modelConfigs)) {
+                    const option = document.createElement('option');
+                    option.value = modelId;
+                    option.textContent = config.displayName;
+                    if (modelId === 'gpt-4o-mini') {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                }
+
+                createModelInfoButton(modelConfigs);
+            }
+        }
+
+        // Create the info button
+        function createModelInfoButton(modelConfigs) {
+            const select = document.getElementById('agentModel');
+            const formGroup = select.closest('.form-group');
+
+            // Remove existing popup if it exists
+            const existingPopup = formGroup.querySelector('.model-description-popup');
+            if (existingPopup) existingPopup.remove();
+
+            // Remove existing overlay if it exists
+            const existingOverlay = document.querySelector('.popup-overlay');
+            if (existingOverlay) existingOverlay.remove();
+
+            // Remove existing info button if it exists
+            const existingBtn = formGroup.querySelector('.model-info-btn');
+            if (existingBtn) existingBtn.remove();
+
+            // Create info button
+            const infoBtn = document.createElement('button');
+            infoBtn.type = 'button';
+            infoBtn.className = 'model-info-btn';
+            infoBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
+            infoBtn.title = 'View model information';
+
+            // Create overlay for click-outside-to-close
+            const overlay = document.createElement('div');
+            overlay.className = 'popup-overlay';
+
+            // Create popup container
+            const popup = document.createElement('div');
+            popup.className = 'model-description-popup';
+
+            // Add click handler
+            infoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePopup(modelConfigs, popup, overlay, infoBtn);
+            });
+
+            // Update label to include the button
+            const label = formGroup.querySelector('label[for="agentModel"]');
+            if (label) {
+                label.classList.add('form-group-model-label');
+                label.appendChild(infoBtn);
+
+                // Append popup to label container
+                label.appendChild(popup);
+                document.body.appendChild(overlay);
+            }
+
+            // When dropdown changes, update popup if visible
+            select.addEventListener('change', () => {
+                if (popup.classList.contains('active')) {
+                    updatePopupContent(select.value, modelConfigs, popup);
+                }
+            });
+
+            // Close popup when clicking overlay
+            overlay.addEventListener('click', () => {
+                closePopup(popup, overlay, infoBtn);
+            });
+
+            // Close popup when clicking close button
+            popup.addEventListener('click', (e) => {
+                if (e.target.classList.contains('popup-close')) {
+                    closePopup(popup, overlay, infoBtn);
+                }
+            });
+        }
+
+        // Toggle popup visibility
+        function togglePopup(modelConfigs, popup, overlay, infoBtn) {
+            const select = document.getElementById('agentModel');
+            const selectedModel = select.value;
+
+            if (popup.classList.contains('active')) {
+                closePopup(popup, overlay, infoBtn);
+            } else {
+                openPopup(selectedModel, modelConfigs, popup, overlay, infoBtn);
+            }
+        }
+
+        // Open popup
+        function openPopup(modelId, modelConfigs, popup, overlay, infoBtn) {
+            updatePopupContent(modelId, modelConfigs, popup);
+
+            popup.classList.add('active');
+            overlay.classList.add('active');
+            infoBtn.classList.add('active');
+            infoBtn.innerHTML = '<i class="fas fa-times-circle"></i>';
+            infoBtn.title = 'Close model information';
+        }
+
+        // Close popup
+        function closePopup(popup, overlay, infoBtn) {
+            popup.classList.remove('active');
+            overlay.classList.remove('active');
+            infoBtn.classList.remove('active');
+            infoBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
+            infoBtn.title = 'View model information';
+        }
+
+        // Update popup content
+        function updatePopupContent(modelId, modelConfigs, popup) {
+            const config = modelConfigs[modelId] || {
+                displayName: 'Unknown Model',
+                description: 'No description available.',
+                icon: 'fa-question-circle',
+                details: ['No details available'],
+                cost: 'Unknown'
+            };
+
+            popup.innerHTML = `
+        <div class="popup-header">
+            <div class="popup-title">
+                <i class="fas fa-robot"></i>
+                Model Information
+            </div>
+            <button class="popup-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="popup-content">
+            <div class="popup-model-name">
+                <i class="fas ${config.icon}"></i>
+                ${config.displayName}
+            </div>
+            <div class="popup-description">
+                ${config.description}
+            </div>
+            <div class="popup-details">
+                <div class="popup-details-title">
+                    <i class="fas fa-star"></i> Key Features
+                </div>
+                <ul class="popup-details-list">
+                    ${config.details.map(detail => `
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            ${detail}
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+            <div class="popup-footer">
+                <span class="model-id-badge">
+                    ${config.displayName}
+                </span>
+                <span class="model-cost">
+                    <i class="fas fa-tag"></i> ${config.cost}
+                </span>
+            </div>
+        </div>
+    `;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', loadModels);
+        window.addEventListener('load', loadModels);
+
+        // Load agents
+        async function loadAgents() {
+            try {
+                const response = await fetch(`${API_URL}/api/agents`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const grid = document.getElementById('agentsGrid');
+                const sidebarList = document.getElementById('sidebarAgentsList');
+
+                if (data.agents.length === 0) {
+                    grid.innerHTML = '<p>No agents created yet. Create your first agent!</p>';
+                    sidebarList.innerHTML = '';
+                    return;
+                }
+
+                // Populate main grid with Edit, Preview, and Delete buttons
+                grid.innerHTML = data.agents.map(agent => {
+                    const escapedName = (agent.name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    return `
+                    <div class="agent-card" id="agentCard-${agent.id}">
+                        <div class="agent-sec">
+                            <div >
+                             <h3>${agent.name}</h3>
+                        <p> ${agent.model}</p>
+                        </div>
+                        
+                        </div>
+                      
+                        <p class="about-agent">${agent.prompt.substring(0, 100)}...</p>
+                       <div class="agent-actions" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn btn btn-primary" onclick="previewAgent(${agent.id}, '${escapedName}')" style=" color: white; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);">
+                                <i class="fas fa-eye" style="font-size: 14px;"></i> 
+                            </button>
+                            <button class="btn btn-primary" onclick="editAgent(${agent.id}); return false;" style=" color: white; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);">
+                                <i class="fas fa-edit" style="font-size: 14px;"></i> 
+                            </button>
+                            <button class="btn btn-primary" onclick="viewAgent(${agent.id}, '${escapedName}')" style=" color: white; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(6, 182, 212, 0.3);">
+                                <i class="fas fa-code" style="font-size: 14px;"></i> 
+                            </button>
+                            <button class="btn btn-danger delete-btn" onclick="deleteAgent(${agent.id}, '${escapedName}')" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);">
+                                <i class="fas fa-trash" style="font-size: 14px;"></i> 
+                            </button>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+
+                // Populate sidebar with clickable agent names
+                sidebarList.innerHTML = data.agents.map(agent => `
+                    <div onclick="editAgent(${agent.id})" style="padding: 8px 15px; cursor: pointer; font-size: 13px; color: rgba(255,255,255,0.8); border-left: 2px solid transparent; transition: all 0.2s;" 
+                         onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#fff';" 
+                         onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
+                        🤖 ${agent.name}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading agents:', error);
+            }
+        }
+
+        // Create agent
+        document.getElementById('createAgentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('agentName').value;
+            const prompt = document.getElementById('agentPrompt').value;
+            const model = document.getElementById('agentModel').value;
+            const domainInputs = document.querySelectorAll('#domainsContainer .domain-input');
+            const allowed_domain = Array.from(domainInputs)
+                .map(input => input.value.trim())
+                .filter(val => val !== '')
+                .join(',');
+
+            if (!allowed_domain) {
+                showToast('Please add at least one allowed domain.', 'error');
+                return;
+            }
+
+            // Get tools configuration (only file_search)
+            const tools = [];
+            if (document.getElementById('enableFileSearch').checked) {
+                tools.push({ "type": "file_search" });
+            }
+
+            // Get selected file IDs
+            const fileIds = [];
+            document.querySelectorAll('#kbFilesSelect input[type="checkbox"]:checked').forEach(cb => {
+                fileIds.push(cb.value);
+            });
+
+            const submitBtn = document.querySelector('#createAgentForm button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+
+            try {
+                // Disable button to prevent multiple submissions
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+
+                showToast('Creating agent...');
+
+                const response = await fetch(`${API_URL}/api/agents`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ name, prompt, model, tools, file_ids: fileIds, allowed_domain })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentAgentId = data.agent.id;
+                    showToast(data.message);
+                    showSuccessPopup('Agent Created! ✅', `${name} has been created successfully.`);
+                    document.getElementById('fileUploadCard').classList.remove('hidden');
+                    document.getElementById('widgetCard').classList.remove('hidden');
+                    generateWidgetCode(data.agent.id);
+
+                    // Reset form
+                    document.getElementById('createAgentForm').reset();
+                    document.getElementById('enableFileSearch').checked = true;
+                    toggleFileSelection();
+                } else {
+                    showToast(data.error, 'error');
+                }
+            } catch (error) {
+                showToast('Connection error', 'error');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+
+        // File upload handling
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            handleFileSelect({ target: { files: e.dataTransfer.files } });
+        });
+
+        async function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+
+            for (const file of files) {
+                await uploadFile(file);
+            }
+        }
+
+        async function uploadFile(file) {
+            if (!currentAgentId) {
+                showToast('Please create an agent first', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(`${API_URL}/api/agents/${currentAgentId}/files`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(`${file.name} uploaded successfully`);
+                    loadAgentFiles(currentAgentId);
+                } else {
+                    showToast(data.error, 'error');
+                }
+            } catch (error) {
+                showToast('Upload failed', 'error');
+            }
+        }
+
+        async function loadAgentFiles(agentId) {
+            try {
+                const response = await fetch(`${API_URL}/api/agents/${agentId}/files`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const fileList = document.getElementById('fileList');
+
+                fileList.innerHTML = data.files.map(file => `
+                    <div class="file-item">
+                        <div class="file-item-name">
+                            <span>📄</span>
+                            <span>${file.filename}</span>
+                        </div>
+                        <span style="font-size: 12px; color: #999;">${new Date(file.uploaded_at).toLocaleString()}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading files:', error);
+            }
+        }
+
+        function generateWidgetCode(agentId) {
+            const code = `<!-- AI Chatbot Widget -->
+<script>
+  (function() {
+    var iframe = document.createElement('iframe');
+    iframe.src = 'http://localhost:8000/widget.html?agent=${agentId}';
+    iframe.style.position = 'fixed';
+    iframe.style.bottom = '20px';
+    iframe.style.right = '20px';
+    iframe.style.width = '400px';
+    iframe.style.height = '600px';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '15px';
+    iframe.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+    iframe.style.zIndex = '9999';
+    document.body.appendChild(iframe);
+  })();
+<\/script>`;
+
+            document.getElementById('widgetCode').textContent = code;
+        }
+
+        // Premium Notification System
+        function showToast(message, type = 'success') {
+            // Create container if it doesn't exist
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+
+            const icon = type === 'success' ? 'fa-check' : 'fa-exclamation-triangle';
+
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <div class="toast-progress"></div>
+            `;
+
+            container.appendChild(toast);
+
+            // Animate progress bar
+            const progress = toast.querySelector('.toast-progress');
+            progress.style.animation = 'toastProgress 3s linear forwards';
+
+            // Show toast
+            setTimeout(() => toast.classList.add('active'), 10);
+
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        function copyWidgetCode() {
+            const code = document.getElementById('widgetCode').textContent;
+            navigator.clipboard.writeText(code);
+            showToast('Widget code copied to clipboard!');
+        }
+
+
+        // View agent widget code
+        async function viewAgent(agentId, agentName) {
+            selectedAgentId = agentId;
+            document.getElementById('modalAgentName').textContent = agentName + ' - Widget Code';
+
+            const widgetCode = `<!-- AI Chatbot Widget -->
+<div id="chat-widget-container">
+  <button id="chat-widget-btn" onclick="toggleChatWidget()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  ">
+    <span style="font-size: 28px;">💬</span>
+  </button>
+  <iframe id="chat-widget-iframe" src="http://localhost:8000/widget.html?agent=${agentId}${userPlan === 'free' ? '&plan=free' : ''}" style="
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 9998;
+    display: none;
+  "><\/iframe>
+</div>
+<script>
+  var chatOpen = false;
+  function toggleChatWidget() {
+    var iframe = document.getElementById('chat-widget-iframe');
+    var btn = document.getElementById('chat-widget-btn');
+    chatOpen = !chatOpen;
+    iframe.style.display = chatOpen ? 'block' : 'none';
+    btn.innerHTML = chatOpen ? '<span style="font-size: 28px;">✕</span>' : '<span style="font-size: 28px;">💬</span>';
+  }
+<\/script>`;
+
+            document.getElementById('modalWidgetCode').textContent = widgetCode;
+            document.getElementById('agentModal').classList.add('active');
+        }
+
+        // Preview agent widget in the right panel
+        let previewingAgentId = null;
+
+        function previewAgent(agentId, agentName) {
+            previewingAgentId = agentId;
+
+            // Remove selected class from all agent cards
+            document.querySelectorAll('.agent-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Add selected class to clicked agent card
+            const selectedCard = document.getElementById(`agentCard-${agentId}`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+
+            // Hide empty state and show iframe
+            const emptyState = document.getElementById('previewEmptyState');
+            const iframe = document.getElementById('widgetPreviewIframe');
+
+            if (emptyState) emptyState.style.display = 'none';
+            if (iframe) {
+                // Build widget URL
+                let widgetUrl = `${API_URL}/widget.html?agent=${agentId}`;
+                if (userPlan === 'free') {
+                    widgetUrl += '&plan=free';
+                }
+
+                iframe.src = widgetUrl;
+                iframe.style.display = 'block';
+            }
+
+            // Update preview header with agent name
+            const previewHeader = document.querySelector('.preview-header h2');
+            if (previewHeader) {
+                previewHeader.innerHTML = `<i class="fas fa-eye"></i> Preview: ${agentName}`;
+            }
+
+            showToast(`Previewing ${agentName}`);
+        }
+
+        // Edit agent - load agent details and show edit section
+        let editingAgentId = null;
+        let editingDomainKey = null;
+
+        async function editAgent(agentId) {
+            console.log('Edit Agent called with ID:', agentId);
+            editingAgentId = agentId;
+
+            try {
+                // Fetch agent details
+                console.log('Fetching agent details from API...');
+                const response = await fetch(`${API_URL}/api/agents/${agentId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                console.log('Agent data received:', data);
+
+                if (response.ok && data.agent) {
+                    const agent = data.agent;
+
+                    // Populate form fields
+                    console.log('Populating form fields...');
+                    document.getElementById('editAgentTitle').textContent = `Edit: ${agent.name}`;
+                    document.getElementById('editAgentName').value = agent.name;
+                    document.getElementById('editAgentPrompt').value = agent.prompt;
+
+                    // Set bot display name default to agent name
+                    document.getElementById('editBotDisplayName').value = agent.name;
+                    document.getElementById('editBotAvatarUrl').value = '';
+
+                    // Set allowed domains (supports both old single domain and new multiple domains)
+                    const domains = agent.allowed_domains || agent.allowed_domain || '';
+                    populateEditDomains(domains);
+                    editingDomainKey = agent.domain_key || '';
+
+                    // Show domain key if exists
+                    if (editingDomainKey) {
+                        document.getElementById('domainKeyInfo').style.display = 'block';
+                        document.getElementById('displayDomainKey').textContent = editingDomainKey;
+                    } else {
+                        document.getElementById('domainKeyInfo').style.display = 'none';
+                    }
+
+                    // Generate widget code
+                    regenerateWidgetCode();
+
+                    // Toggle widget code visibility based on domain
+                    toggleWidgetCodeVisibility();
+
+                    // Load KB files for selection
+                    await loadEditFilesSelection();
+
+                    // Show edit section
+                    console.log('Showing agent detail section...');
+                    showSection('agentDetail');
+                    console.log('Successfully loaded agent for editing');
+                } else {
+                    console.error('Failed to load agent:', data.error);
+                    showToast(data.error || 'Failed to load agent', 'error');
+                }
+            } catch (error) {
+                console.error('Error in editAgent function:', error);
+                showToast('Error loading agent: ' + error.message, 'error');
+            }
+        }
+
+        // Load KB files for edit selection
+        async function loadEditFilesSelection() {
+            try {
+                const response = await fetch(`${API_URL}/api/user/files`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const container = document.getElementById('editKbFilesSelect');
+
+                if (data.files && data.files.length > 0) {
+                    container.innerHTML = data.files.map(file => `
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; cursor: pointer; border-bottom: 1px solid #334155;">
+                            <input type="checkbox" value="${file.openai_file_id}" style="width: 18px; height: 18px;">
+                            <span>📄 ${file.filename}</span>
+                        </label>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p style="color: #999; text-align: center;">No files available</p>';
+                }
+            } catch (error) {
+                console.error('Error loading files:', error);
+            }
+        }
+
+        // Update agent
+        async function updateAgent() {
+            if (!editingAgentId) return;
+
+            const name = document.getElementById('editAgentName').value;
+            const prompt = document.getElementById('editAgentPrompt').value;
+            const allowed_domain = getAllEditDomains().join(',');
+            const botName = document.getElementById('editBotDisplayName').value || '';
+            const botAvatar = document.getElementById('editBotAvatarUrl').value || '';
+            const enableFileSearch = document.getElementById('editEnableFileSearch').checked;
+
+            // Get selected file IDs
+            const fileIds = [];
+            document.querySelectorAll('#editKbFilesSelect input[type="checkbox"]:checked').forEach(cb => {
+                fileIds.push(cb.value);
+            });
+
+            // Build tools array
+            const tools = [];
+            if (enableFileSearch) {
+                tools.push({ "type": "file_search" });
+            }
+
+            // Get the save button directly
+            const saveButtons = document.querySelectorAll('#agentDetailSection .btn-primary');
+            const submitBtn = saveButtons.length > 0 ? saveButtons[0] : null;
+            const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+
+            try {
+                // Disable button to prevent multiple submissions
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                }
+
+                showToast('Updating agent...');
+
+                const response = await fetch(`${API_URL}/api/agents/${editingAgentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        name,
+                        prompt,
+                        file_ids: fileIds,
+                        allowed_domain,
+                        bot_display_name: botName,
+                        bot_avatar_url: botAvatar,
+                        tools
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Agent updated successfully!');
+                    showSuccessPopup('Saved! ✅', `${name} has been updated successfully.`);
+                    document.getElementById('editAgentTitle').textContent = `Edit: ${name}`;
+                    loadAgents(); // Refresh sidebar
+                } else {
+                    showToast(data.error || 'Update failed', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                // Re-enable button
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            }
+        }
+
+        // Copy widget code from edit page
+        function copyEditWidgetCode() {
+            const code = document.getElementById('editWidgetCode').textContent;
+            navigator.clipboard.writeText(code);
+            showToast('Widget code copied!');
+        }
+
+        // Toggle widget code visibility based on domain field
+        function toggleWidgetCodeVisibility() {
+            const domains = getAllEditDomains();
+            const hasDomain = domains.length > 0 && domains[0].length > 0;
+            const widgetCodeCard = document.getElementById('widgetCodeCard');
+            const domainRequiredMsg = document.getElementById('domainRequiredMsg');
+
+            if (hasDomain && editingDomainKey) {
+                widgetCodeCard.classList.remove('hidden');
+                domainRequiredMsg.classList.add('hidden');
+            } else {
+                widgetCodeCard.classList.add('hidden');
+                domainRequiredMsg.classList.remove('hidden');
+            }
+        }
+
+        // Regenerate widget code with bot name and avatar
+        function regenerateWidgetCode() {
+            if (!editingAgentId) return;
+
+            const botName = document.getElementById('editBotDisplayName').value || 'AI Assistant';
+            const botAvatar = document.getElementById('editBotAvatarUrl').value || '';
+
+            // Build URL with parameters including domain key
+            let widgetUrl = `http://localhost:8000/widget.html?agent=${editingAgentId}`;
+            widgetUrl += `&botname=${encodeURIComponent(botName)}`;
+            if (botAvatar) {
+                widgetUrl += `&botimage=${encodeURIComponent(botAvatar)}`;
+            }
+            if (editingDomainKey) {
+                widgetUrl += `&key=${encodeURIComponent(editingDomainKey)}`;
+            }
+            // Add plan parameter for free users
+            if (userPlan === 'free') {
+                widgetUrl += '&plan=free';
+            }
+
+            const widgetCode = `<!-- AI Chatbot Widget - ${botName} -->
+<div id="chat-widget-container">
+  <button id="chat-widget-btn" onclick="toggleChatWidget()" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  ">
+    <span style="font-size: 28px;">💬</span>
+  </button>
+  <iframe id="chat-widget-iframe" src="${widgetUrl}" style="
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 9998;
+    display: none;
+  "><\/iframe>
+</div>
+<script>
+  var chatOpen = false;
+  function toggleChatWidget() {
+    var iframe = document.getElementById('chat-widget-iframe');
+    var btn = document.getElementById('chat-widget-btn');
+    chatOpen = !chatOpen;
+    iframe.style.display = chatOpen ? 'block' : 'none';
+    btn.innerHTML = chatOpen ? '<span style="font-size: 28px;">✕</span>' : '<span style="font-size: 28px;">💬</span>';
+  }
+<\/script>`;
+
+            document.getElementById('editWidgetCode').textContent = widgetCode;
+        }
+
+        // Handle avatar image upload
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select a valid image file', 'error');
+                return;
+            }
+
+            // Validate file size (max 2MB)
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            if (file.size > maxSize) {
+                showToast('Image size must be less than 2MB', 'error');
+                return;
+            }
+
+            // Read file and convert to base64 data URL
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const dataUrl = e.target.result;
+
+                // Set the URL input field with data URL
+                document.getElementById('editBotAvatarUrl').value = dataUrl;
+
+                // Update preview
+                updateAvatarPreview();
+
+                // Regenerate widget code
+                regenerateWidgetCode();
+
+                showToast('Avatar image uploaded successfully!');
+            };
+            reader.onerror = function () {
+                showToast('Error reading image file', 'error');
+            };
+            reader.readAsDataURL(file);
+
+            // Reset input so same file can be selected again
+            event.target.value = '';
+        }
+
+        // Update avatar preview
+        function updateAvatarPreview() {
+            const avatarUrl = document.getElementById('editBotAvatarUrl').value.trim();
+            const previewContainer = document.getElementById('avatarPreviewContainer');
+            const previewImg = document.getElementById('avatarPreviewImg');
+
+            if (avatarUrl) {
+                previewImg.src = avatarUrl;
+                previewContainer.style.display = 'block';
+
+                // Handle image load error
+                previewImg.onerror = function () {
+                    previewContainer.style.display = 'none';
+                };
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        // Clear avatar image
+        function clearAvatarImage() {
+            document.getElementById('editBotAvatarUrl').value = '';
+            document.getElementById('avatarPreviewContainer').style.display = 'none';
+            regenerateWidgetCode();
+            showToast('Avatar image removed');
+        }
+
+        // Global confirmation callback
+        let confirmCallback = null;
+
+        async function deleteAgent(agentId, agentName) {
+            showConfirmModal(
+                'Delete Agent?',
+                `Are you sure you want to delete "${agentName}"? This will also delete it from OpenAI and cannot be undone.`,
+                async () => {
+                    try {
+                        const response = await fetch(`${API_URL}/api/agents/${agentId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            showToast('Agent deleted successfully!');
+                            loadAgents(); // Refresh the list
+                        } else {
+                            showToast(data.error || 'Failed to delete agent', 'error');
+                        }
+                    } catch (error) {
+                        showToast('Error deleting agent: ' + error.message, 'error');
+                    }
+                }
+            );
+        }
+
+        function showConfirmModal(title, message, onConfirm) {
+            document.getElementById('confirmModalTitle').textContent = title;
+            document.getElementById('confirmModalMessage').textContent = message;
+
+            const deleteBtn = document.getElementById('confirmModalDeleteBtn');
+            const newDeleteBtn = deleteBtn.cloneNode(true);
+            deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
+
+            newDeleteBtn.onclick = () => {
+                onConfirm();
+                closeConfirmModal();
+            };
+
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        function closeAgentModal() {
+            document.getElementById('agentModal').classList.remove('active');
+        }
+
+        function copyModalWidgetCode() {
+            const code = document.getElementById('modalWidgetCode').textContent;
+            navigator.clipboard.writeText(code);
+            showToast('Widget code copied!');
+        }
+
+        async function loadWebhooks() {
+            // Implementation for loading webhooks
+        }
+
+        // Toggle file selection visibility based on File Search toggle (Create Agent)
+        function toggleFileSelection() {
+            const fileSearchEnabled = document.getElementById('enableFileSearch').checked;
+            const fileSelectionGroup = document.getElementById('fileSelectionGroup');
+
+            if (fileSearchEnabled) {
+                fileSelectionGroup.style.display = 'block';
+            } else {
+                fileSelectionGroup.style.display = 'none';
+            }
+        }
+
+        // Toggle file selection visibility based on File Search toggle (Edit Agent)
+        function toggleEditFileSelection() {
+            const fileSearchEnabled = document.getElementById('editEnableFileSearch').checked;
+            const editAgentFiles = document.getElementById('editAgentFiles');
+
+            if (fileSearchEnabled) {
+                editAgentFiles.style.display = 'block';
+            } else {
+                editAgentFiles.style.display = 'none';
+            }
+        }
+
+        // Load files for selection in Create Agent form
+        async function loadFilesForSelection() {
+            try {
+                const response = await fetch(`${API_URL}/api/user/files`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const container = document.getElementById('kbFilesSelect');
+
+                if (data.files && data.files.length > 0) {
+                    container.innerHTML = data.files.map(file => `
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; cursor: pointer; border-bottom: 1px solid #334155;">
+                            <input type="checkbox" value="${file.openai_file_id}" style="width: 18px; height: 18px;">
+                            <span>📄 ${file.filename}</span>
+                            <span style="font-size: 11px; color: #999; margin-left: auto;">${formatFileSize(file.file_size)}</span>
+                        </label>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">No files in Knowledge Base. <a href="#" onclick="showSection(\'knowledgebase\')">Upload files first</a></p>';
+                }
+            } catch (error) {
+                console.error('Error loading files for selection:', error);
+                document.getElementById('kbFilesSelect').innerHTML = '<p style="color: #e74c3c;">Error loading files</p>';
+            }
+        }
+
+        // ==================== KNOWLEDGE BASE FUNCTIONS ====================
+
+        // Load user's knowledge base files
+        async function loadKnowledgeBaseFiles() {
+            try {
+                const response = await fetch(`${API_URL}/api/user/files`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                const filesList = document.getElementById('kbFilesList');
+
+                if (data.files.length === 0) {
+                    filesList.innerHTML = '<p style="color: #999;">No files uploaded yet. Upload your first file to get started!</p>';
+                    return;
+                }
+
+                filesList.innerHTML = data.files.map(file => `
+                    <div class="file-item" style="display: flex; justify-content: space-between; align-items: center; padding:8px 12px; border-radius: 10px; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                          <i class="fas fa-file-csv green "></i>
+                            <div>
+                                <div class="file-name">${file.filename}</div>
+                                <div class="file-size">
+                                    ${formatFileSize(file.file_size)} • ${new Date(file.uploaded_at).toLocaleDateString()}
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="deleteKnowledgeBaseFile(${file.id})" class="btn dlt-btn">
+                                <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading knowledge base files:', error);
+            }
+        }
+
+        // Upload file to knowledge base
+        async function uploadKnowledgeBaseFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                showToast(`Uploading ${file.name}...`);
+
+                const response = await fetch(`${API_URL}/api/user/files`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(`${file.name} uploaded successfully!`);
+                    loadKnowledgeBaseFiles();
+                } else {
+                    showToast(data.error || 'Upload failed', 'error');
+                }
+            } catch (error) {
+                showToast('Upload failed: ' + error.message, 'error');
+            }
+        }
+
+        // Delete file from knowledge base
+        async function deleteKnowledgeBaseFile(fileId) {
+            if (!confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/user/files/${fileId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('File deleted successfully!');
+                    loadKnowledgeBaseFiles();
+                } else {
+                    showToast(data.error || 'Delete failed', 'error');
+                }
+            } catch (error) {
+                showToast('Delete failed: ' + error.message, 'error');
+            }
+        }
+
+        // Format file size helper
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+        }
+
+        // Knowledge Base file upload event listeners
+        document.getElementById('kbUploadArea').addEventListener('click', () => {
+            document.getElementById('kbFileInput').click();
+        });
+
+        document.getElementById('kbFileInput').addEventListener('change', (e) => {
+            const files = e.target.files;
+            for (let file of files) {
+                uploadKnowledgeBaseFile(file);
+            }
+            e.target.value = ''; // Reset input
+        });
+
+        // Drag and drop support
+        document.getElementById('kbUploadArea').addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.currentTarget.style.borderColor = '#667eea';
+            e.currentTarget.style.background = '#f0f0ff';
+        });
+
+        document.getElementById('kbUploadArea').addEventListener('dragleave', (e) => {
+            e.currentTarget.style.borderColor = '#ddd';
+            e.currentTarget.style.background = '#fafafa';
+        });
+
+        document.getElementById('kbUploadArea').addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.currentTarget.style.borderColor = '#ddd';
+            e.currentTarget.style.background = '#fafafa';
+
+            const files = e.dataTransfer.files;
+            for (let file of files) {
+                uploadKnowledgeBaseFile(file);
+            }
+        });
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // Load agents and models on page load
+        loadAgents();
+        loadModels();
+        loadBillingInfo(); // Load user plan for widget code generation
+
+        // ==================== USER PROFILE DROPDOWN ====================
+
+        function toggleUserDropdown(event) {
+            // Prevent event bubbling to document click listener
+            event.stopPropagation();
+
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('userDropdown');
+            const userInfo = document.querySelector('.user-info');
+
+            if (dropdown && dropdown.classList.contains('active')) {
+                // If click is outside the user info dropdown
+                if (!userInfo.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
+
+        // Load and display user plan
+        async function loadUserPlan() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/user/plan`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    const planDisplay = document.getElementById('userPlanDisplay');
+                    if (planDisplay) {
+                        const planName = data.plan.charAt(0).toUpperCase() + data.plan.slice(1);
+                        planDisplay.textContent = `${planName} Plan`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading plan:', error);
+            }
+        }
+
+        function toggleSidebarAgents() {
+            const list = document.getElementById('sidebarAgentsList');
+            const icon = document.getElementById('sidebarAgentsToggle');
+
+            if (list.style.maxHeight === '0px' || list.style.maxHeight === '') {
+                list.style.maxHeight = '500px';
+                icon.style.transform = 'rotate(0deg)';
+                sessionStorage.setItem('sidebarAgentsCollapsed', 'false');
+            } else {
+                list.style.maxHeight = '0';
+                icon.style.transform = 'rotate(-90deg)';
+                sessionStorage.setItem('sidebarAgentsCollapsed', 'true');
+            }
+        }
+
+        // Restore sidebar state on load
+        function restoreSidebarAgentsState() {
+            const isCollapsed = sessionStorage.getItem('sidebarAgentsCollapsed') === 'true';
+            const list = document.getElementById('sidebarAgentsList');
+            const icon = document.getElementById('sidebarAgentsToggle');
+            if (isCollapsed) {
+                list.style.maxHeight = '0';
+                icon.style.transform = 'rotate(-90deg)';
+            } else {
+                list.style.maxHeight = '500px';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Modified toggleAgentsList to be a no-op or removed if no longer needed
+        function toggleAgentsList() { }
+    </script>
+    <script>
+        async function toggleNotifications() {
+            const box = document.getElementById("notificationsDropdown");
+            if (box.style.display === "block") {
+                box.style.display = "none";
+            } else {
+                box.style.display = "block";
+                await loadNotifications();
+            }
+        }
+
+        async function loadNotifications() {
+            try {
+                const response = await fetch(`${API_URL}/api/notifications`, {
+                    headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    const list = document.getElementById('notificationsList');
+                    const badge = document.querySelector('.notification-badge');
+
+                    // Update badge
+                    if (data.unread_count > 0) {
+                        badge.textContent = data.unread_count;
+                        badge.style.display = 'block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+
+                    if (data.notifications.length === 0) {
+                        list.innerHTML = '<div class="empty-notif" style="padding: 20px; text-align: center; color: #999;"><p>No new notifications</p></div>';
+                        return;
+                    }
+
+                    list.innerHTML = data.notifications.map(n => `
+                        <div class="notif-item ${n.is_read ? '' : 'unread'}" onclick="markNotificationRead(${n.id})">
+                            <i class="fa-solid ${getNotificationIcon(n.type)} ${n.type}"></i>
+                            <div>
+                                <p>${n.message}</p>
+                                <span>${formatTime(n.created_at)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+            }
+        }
+
+        function getNotificationIcon(type) {
+            switch (type) {
+                case 'success': return 'fa-circle-check';
+                case 'warning': return 'fa-triangle-exclamation';
+                case 'error': return 'fa-circle-xmark';
+                default: return 'fa-info-circle';
+            }
+        }
+
+        function formatTime(isoString) {
+            const date = new Date(isoString);
+            const now = new Date();
+            const diff = (now - date) / 1000; // seconds
+
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            return date.toLocaleDateString();
+        }
+
+        async function markNotificationRead(id) {
+            try {
+                await fetch(`${API_URL}/api/notifications/read`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ notification_id: id })
+                });
+                loadNotifications();
+            } catch (error) {
+                console.error('Error marking notification read:', error);
+            }
+        }
+
+        async function markAllNotificationsAsRead() {
+            try {
+                await fetch(`${API_URL}/api/notifications/read`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({})
+                });
+                loadNotifications();
+            } catch (error) {
+                console.error('Error clearing notifications:', error);
+            }
+        } f
+
+        // Initialize notifications on load
+        loadNotifications();
+        // Refresh every 5 minutes
+        setInterval(loadNotifications, 300000);
+    </script>
+
+    <script>
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle sidebar when clicking menu button
+            document.querySelector('.menu-btn').addEventListener('click', toggleSidebar);
+
+            // Close sidebar when clicking close button
+            document.querySelector('.sidebar-close-btn').addEventListener('click', closeSidebar);
+
+            // Close sidebar when clicking overlay
+            document.querySelector('.sidebar-overlay').addEventListener('click', closeSidebar);
+
+            // Close sidebar when clicking sidebar menu items (for mobile)
+            document.querySelectorAll('.sidebar-menu li').forEach(item => {
+                item.addEventListener('click', function () {
+                    if (window.innerWidth <= 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // Restore sidebar agents state
+            restoreSidebarAgentsState();
+        });
+
+        function toggleSidebarCollapse() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            // On mobile, we toggle the 'active' class for the drawer effect
+            if (window.innerWidth <= 768) {
+                const overlay = document.querySelector('.sidebar-overlay');
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                // Ensure collapsed mode is off on mobile
+                sidebar.classList.remove('collapsed');
+                mainContent.classList.remove('sidebar-collapsed');
+            } else {
+                // On desktop, we toggle the 'collapsed' mini-sidebar mode
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('sidebar-collapsed');
+
+                // If collapsed, hide the agents list for better look
+                if (sidebar.classList.contains('collapsed')) {
+                    const list = document.getElementById('sidebarAgentsList');
+                    const icon = document.getElementById('sidebarAgentsToggle');
+                    list.style.maxHeight = '0';
+                    icon.style.transform = 'rotate(-90deg)';
+                } else {
+                    // Restore state if expanding
+                    restoreSidebarAgentsState();
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            // Helper for overlay click
+            toggleSidebarCollapse();
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    </script>
+    <script>
+        // Function to update the H1 title
+        function updatePageTitle(newTitle) {
+            const h1 = document.querySelector('.header h1');
+            if (h1) {
+                h1.textContent = newTitle;
+            }
+        }
+
+        // Function to set active class on sidebar menu
+        function setActiveSidebarItem(sectionName) {
+            // Remove active class from all menu items
+            document.querySelectorAll('.sidebar-menu li').forEach(li => {
+                li.classList.remove('active');
+            });
+
+            // Add active class to the clicked item
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            let targetIndex = -1;
+
+            // Map section names to menu indices
+            const sectionMap = {
+                'agents': 0,
+                'create': 1,
+                'knowledgebase': 2,
+                'billing': 3
+            };
+
+            if (sectionMap.hasOwnProperty(sectionName)) {
+                targetIndex = sectionMap[sectionName];
+                if (menuItems[targetIndex]) {
+                    menuItems[targetIndex].classList.add('active');
+                }
+            }
+        }
+
+        // Update your showSection function
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+
+            // Show the selected section
+            document.getElementById(`${section}Section`).classList.remove('hidden');
+
+            // Update title and active state
+            const titles = {
+                'agents': 'My AI Agents',
+                'create': 'Create New Agent',
+                'knowledgebase': 'Knowledge Base',
+                'billing': 'Billing & Subscription'
+            };
+
+            if (titles[section]) {
+                updatePageTitle(titles[section]);
+                setActiveSidebarItem(section);
+            }
+
+            // Load content for the section
+            switch (section) {
+                case 'agents':
+                    loadAgents();
+                    break;
+                case 'create':
+                    loadFilesForSelection();
+                    break;
+                case 'knowledgebase':
+                    loadKnowledgeBaseFiles();
+                    break;
+                case 'billing':
+                    loadBillingInfo();
+                    break;
+            }
+
+            // Close mobile menu if open
+            closeMobileMenu();
+        }
+
+        // Update your sidebar menu HTML (simpler version):
+        /*
+        <li onclick="showSection('agents')">
+            <i class="fas fa-chart-bar"></i> <span>My Agents</span>
+        </li>
+        <li onclick="showSection('create')">
+            <i class="fas fa-plus-circle"></i> <span>Create Agent</span>
+        </li>
+        <li onclick="showSection('knowledgebase')">
+            <i class="fas fa-book"></i> <span>Knowledge Base</span>
+        </li>
+        <li onclick="showSection('billing')">
+            <i class="fas fa-credit-card"></i> <span>Billing</span>
+        </li>
+        */
+
+        // Update the back button in edit section
+        // Change your back button HTML to:
+        // <button class="btn" onclick="backToAgents()" style="background: #ffffff;">← Back to Agents</button>
+
+        function backToAgents() {
+            showSection('agents');
+        }
+    </script>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="confirmModal" class="confirm-modal-overlay">
+        <div class="confirm-modal">
+            <div class="confirm-modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 id="confirmModalTitle">Delete Agent?</h3>
+            <p id="confirmModalMessage">Are you sure you want to delete this agent? This action cannot be undone.</p>
+            <div class="confirm-modal-actions">
+                <button class="confirm-btn-cancel" onclick="closeConfirmModal()">Cancel</button>
+                <button class="confirm-btn-delete" id="confirmModalDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

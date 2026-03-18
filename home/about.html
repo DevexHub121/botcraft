@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="/Botcraft_fav.jpg">
+    <title>About Us - BotCraft</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav_sec">
+                <a href="/" class="logo"><img src="/logo.png" alt="BotCraft" style="width: 150px;"><span
+                        style="font-size: 20px;"></span></a>
+                <!-- Hamburger Menu Button (Mobile) -->
+                <button class="hamburger" id="hamburger">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+
+                <!-- Navigation Menu -->
+                <div class="nav-menu" id="navMenu">
+                    <a href="/#features" class="nav-link">Features</a>
+                    <a href="/#pricing" class="nav-link">Plans</a>
+                    <a href="/#how-it-works" class="nav-link">How It Works</a>
+                    <a href="/#faq" class="nav-link">FAQ</a>
+
+                    <!-- Mobile Auth Buttons -->
+                    <div class="mobile-nav-buttons">
+                        <button class="btn btn-success"
+                            onclick="window.location.href='/#pricing'">
+                            Get Started Free
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nav Buttons -->
+                <div class="nav-buttons">
+                    <button class="btn btn-success" onclick="window.location.href='/#pricing'">
+                        Get Started Free
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="privacy-section" id="about">
+        <div class="container text-white">
+            <!-- Section Title -->
+            <span>About Us</span><br>
+            BotCraft helps businesses use artificial intelligence to communicate with their customers in a faster and
+            smarter way.
+            We created BotCraft to make chatbot technology simple and accessible for everyone. Businesses should not
+            need complex tools or technical knowledge to use AI. With BotCraft anyone can create a powerful AI chatbot
+            in just a few minutes.
+            Our platform allows you to upload documents, website links, and important information so the chatbot can
+            learn about your business. Once trained the chatbot can answer customer questions, guide visitors, and
+            provide support at any time of the day.
+            BotCraft works with advanced AI models that understand context and provide accurate responses based on the
+            information you provide. The chatbot can also be easily added to any website and customized to match your
+            brand design.
+            We also provide useful insights through analytics so businesses can understand what their customers are
+            asking and improve their service experience.
+            BotCraft is trusted by startups, agencies, and growing companies that want to automate customer
+            conversations and improve engagement without complicated setups.
+            Our goal is simple. We want to make AI powered communication easy, powerful, and affordable for every
+            business.
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="BotCraft Logo" style="height: 40px; width: auto;">
+                    </div>
+                    <p class="footer-tagline">
+                        Build AI-powered chatbots that understand your business and delight your customers.
+                    </p>
+                </div>
+
+                <!-- Product Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-menu">
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#pricing">Pricing</a></li>
+                        <li><a href="/#demo">Demo</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-menu">
+                        <li><a href="/privacy.html">Privacy</a></li>
+                        <li><a href="/terms.html">Terms</a></li>
+                        <li><a href="/about.html">About us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-item">
+                    <h4>Contact us</h4>
+                    <div class="fotter-address">
+                        <p><i class="fa fa-location-arrow" aria-hidden="true"></i> GR Square, Plot No D-254, 4th Floor,
+                            Phase-8A, Mohali</p>
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> support@BotCraft.com</p>
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> (+91) 9875905952</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2024 BotCraft. All rights reserved.</p>
+                <div class="contact-email">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:support@BotCraft.com">support@BotCraft.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        }
+
+        backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // Hamburger Menu Logic
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+

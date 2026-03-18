@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BotCraft — Embed AI agents anywhere
+    </title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="/Botcraft_fav.jpg">
+</head>
+
+<body>
+    <!-- <i class="fas fa-robot" style="color: #7c3aed; margin-right: 8px;"></i> -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav_sec">
+                <a href="/" class="logo"><img src="/logo.png" alt="BotCraft" style="width: 150px;"><span
+                        style="font-size: 20px;"></span></a>
+                <!-- BotCraft -->
+                <!-- Hamburger Menu Button (Mobile) -->
+                <button class="hamburger" id="hamburger">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+
+                <!-- Navigation Menu -->
+                <div class="nav-menu" id="navMenu">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#pricing" class="nav-link">Plans</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="#faq" class="nav-link">FAQ</a>
+
+                    <!-- Mobile Auth Buttons -->
+                    <div class="mobile-nav-buttons">
+                        <button id="mobileLoginBtn" class="btn" onclick="openModal('login')">
+                            Login / Sign Up
+                        </button>
+                        <button id="mobileGetStartedBtn" class="btn btn-success"
+                            onclick="window.location.href='#pricing'">
+                            Get Started Free
+                        </button>
+                        <div id="mobileAuthButtons" style="display: none;">
+                            <button id="mobileDashboardBtn" class="btn btn-primary"
+                                onclick="window.location.href='/dashboard'">
+                                Dashboard
+                            </button>
+                            <button id="mobileLogoutBtn" class="btn btn-secondary"
+                                onclick="javascript:void(0); logout();">Logout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Buttons -->
+                <div class="nav-buttons">
+                    <button id="navLoginBtn" class="btn" onclick="openModal('login')">
+                        Login / Sign Up
+                    </button>
+                    <button id="navGetStartedBtn" class="btn btn-success" onclick="window.location.href='#pricing'">
+                        Get Started Free
+                    </button>
+                    <div id="navAuthButtons" style="display: none;">
+                        <button id="navDashboardBtn" class="btn btn-primary"
+                            onclick="window.location.href='/dashboard'">
+                            Dashboard
+                        </button>
+                        <button id="navLogoutBtn" class="btn btn-secondary"
+                            onclick="javascript:void(0); logout();">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <!-- Background Elements -->
+        <div class="hero-bg"></div>
+        <div class="hero-glow glow-1"></div>
+        <div class="hero-glow glow-2"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <!-- Left Column - Text Content -->
+                <div class="hero-text">
+                    <!-- Badge -->
+                    <div class="badge">
+                        <i class="fas fa-bolt"></i>
+                        <span>Powered by Devexhub</span>
+                    </div>
+
+                    <!-- Main Heading -->
+                    <h1>Build Your Own <span class="gradient-text">AI Chatbot</span> in Minutes</h1>
+
+                    <!-- Subtitle -->
+                    <p class="subtitle">
+                        Create intelligent chatbots powered by OpenAI, upload your knowledge base,
+                        and embed them anywhere. No coding required.
+                    </p>
+
+                    <!-- Buttons -->
+                    <div class="btn-container">
+                        <button id="heroBtn" class="btn btn-primary" onclick="openModal('login')">
+                            Get Started Free
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <!-- <button id="heroBtn" class="btn btn-primary" >Get Started Free</button> -->
+                        <button class="btn border-primary btn-secondary">
+                            <i class="fas fa-play"></i>
+                            Watch Demo
+                        </button>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number" id="stat1">10,000+</div>
+                            <div class="stat-label">Bots Created</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="stat2">5M+</div>
+                            <div class="stat-label">Messages</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="stat3">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Chat Demo -->
+                <div class="hero-visual">
+                    <div class="chat-demo">
+                        <!-- Chat Header -->
+                        <div class="chat-header">
+                            <div class="chat-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="chat-title">
+                                <h3>AI Assistant</h3>
+                                <div class="chat-status">
+                                    <span class="status-dot"></span>
+                                    Online
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div class="messages">
+                            <div class="message user">
+                                How do I integrate the chatbot on my website?
+                            </div>
+                            <div class="message bot">
+                                It's super easy! Just copy our embed code and paste it into your website's HTML.
+                            </div>
+                            <div class="message user">
+                                Can I customize its appearance?
+                            </div>
+                            <div class="message bot">
+                                Absolutely! You can customize colors, position, and add your logo.
+                            </div>
+
+                            <!-- Typing Indicator -->
+                            <div class="typing">
+                                <div class="typing-dots">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                                <span>AI is typing...</span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="chat-input-container">
+                            <input type="text" class="chat-input" placeholder="Type your message...">
+                            <button class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+
+
+        <div class="container">
+            <!-- Section Title -->
+            <div class="section-title">
+                <h2>Everything You Need to <span class="gradient-text">Build AI Chatbots</span></h2>
+                <p>Powerful features that make creating and deploying AI chatbots effortless.</p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <!-- Feature 1: Easy Setup -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Easy Setup & Instant Embed</h3>
+                    <p>Launch your chatbot in under 5 minutes and embed it anywhere using just one line of code—no
+                        technical expertise required</p>
+                </div>
+
+                <!-- Feature 2: Knowledge Base Upload -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3>Knowledge Base Upload</h3>
+                    <p>Upload PDFs, docs, or URLs. Your AI learns from your content automatically.</p>
+                </div>
+
+                <!-- Feature 3: AI Model Selection -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Model Selection</h3>
+                    <p>Choose from GPT-4, Claude, or other models. Pick what works best for you.</p>
+                </div>
+
+
+
+                <!-- Feature 5: Custom Branding -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Custom Branding</h3>
+                    <p>Match your chatbot's appearance with your brand colors, logo, and style.</p>
+                </div>
+
+                <!-- Feature 6: Analytics Dashboard -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track conversations, user satisfaction, and chatbot performance in real-time.</p>
+                </div>
+
+                <!-- Feature 7: Multi-language Support -->
+                <div class="feature-card"
+                    style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Multi-language Support</h3>
+                    <p>Deploy chatbots in multiple languages to serve global audiences effectively.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- <div class="hero">
+        <h1>Build Your Custom AI Chatbot</h1>
+        <p>Create intelligent chatbots powered by OpenAI, upload your knowledge base, and embed them anywhere</p>
+        <button id="heroBtn" class="btn btn-primary" onclick="openModal('login')">Get Started Free</button>
+    </div> -->
+    <!-- Stats Section -->
+    <!-- <div class="stats-section animate-on-scroll">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h2>10,000+</h2>
+                <p>Bots Created</p>
+            </div>
+            <div class="stat-item">
+                <h2>5M+</h2>
+                <p>Messages Processed</p>
+            </div>
+            <div class="stat-item">
+                <h2>99.9%</h2>
+                <p>Uptime</p>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div id="features" class="features">
+        <div class="feature-card">
+            <h3>🚀 Easy Setup</h3>
+            <p>Create your AI agent in minutes with our intuitive dashboard. No coding required!</p>
+        </div>
+        <div class="feature-card">
+            <h3>📚 Knowledge Base</h3>
+            <p>Upload multiple files to train your chatbot with your own data and documents.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🌐 Embed Anywhere</h3>
+            <p>Get a custom widget to embed your chatbot on any website with just one line of code.</p>
+        </div>
+    </div> -->
+
+    <section class="demo" id="demo">
+        <!-- Background -->
+        <div class="demo-bg"></div>
+
+        <div class="container">
+            <div class="demo-container">
+                <!-- Section Title -->
+                <div class="demo-title">
+                    <h2>See it <span class="gradient-text">in Action</span></h2>
+                    <p>Watch how easy it is to create and deploy your AI chatbot.</p>
+                </div>
+
+                <!-- Video Demo Container -->
+                <div class="video-demo">
+                    <!-- Video Container -->
+                    <div class="video-placeholder" style="position: relative;">
+                        <video id="demoVideo" width="100%" height="100%" autoplay loop muted playsinline
+                            style="object-fit: cover; border-radius: 20px;">
+                            <source src="infovideo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <button id="muteBtn" onclick="toggleMute()"
+                            style="position: absolute; bottom: 20px; right: 20px; z-index: 10; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; width: 40px; height: 40px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s;">
+                            <i class="fas fa-volume-mute" id="muteIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <!-- Section Title -->
+            <div class="section-title text-center">
+                <h2>How It <span class="gradient-text">Works</span></h2>
+                <p class="section-subtitle">Three simple steps to launch your AI-powered chatbot.</p>
+            </div>
+
+            <!-- Steps Container -->
+            <div class="steps-container">
+
+
+                <!-- Steps Grid -->
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-icon-container">
+                            <div class="step-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="step-number">1</div>
+                        </div>
+                        <h3 class="step-title">Create Your AI Bot</h3>
+                        <p class="step-description">
+                            Sign up and create a new chatbot in seconds. Name it and choose your AI model.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-icon-container">
+                            <div class="step-icon">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="step-number">2</div>
+                        </div>
+                        <h3 class="step-title">Upload Documents & Data</h3>
+                        <p class="step-description">
+                            Feed your chatbot with knowledge. Upload PDFs, docs, or connect your website.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-icon-container">
+                            <div class="step-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="step-number">3</div>
+                        </div>
+                        <h3 class="step-title">Embed on Your Website</h3>
+                        <p class="step-description">
+                            Copy the embed code and paste it. Your chatbot is live and ready to help customers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Why Choose BotCraft Section -->
+    <!-- Why Choose BotCraft Section -->
+    <section class="advantages" id="advantages">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>Why <span class="gradient-text">Choose BotCraft</span></h2>
+                <p class="section-subtitle">Don't just build a chatbot; build a smarter, more effective AI teammate.
+                    Here's what sets us apart.</p>
+            </div>
+
+            <div class="advantages-grid">
+                <!-- Advantage 1 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Truly Context-Aware AI</h3>
+                    <p>Go beyond generic answers. Our AI deeply understands the context from your uploaded documents,
+                        providing precise, on-brand responses that generic chatbots can't match.</p>
+
+                </div>
+
+                <!-- Advantage 2 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Enterprise-Grade Security</h3>
+                    <p>Your data is your IP. We use bank-level encryption, never train public models on your data, and
+                        ensure complete data isolation. Security isn't a feature; it's our foundation.</p>
+
+                </div>
+
+                <!-- Advantage 3 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Set Up in Minutes, Not Days</h3>
+                    <p>Why spend weeks on complex integrations? Get a powerful, trained chatbot live on your site in
+                        under 5 minutes. No coding, no hassle, immediate value.</p>
+
+                </div>
+
+                <!-- Advantage 4 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Unmatched Cost-to-Value</h3>
+                    <p>Access top-tier AI models (GPT-4, Claude) and advanced features without the exorbitant cost or
+                        hidden fees. Our transparent pricing delivers enterprise power at a fraction of the price.</p>
+
+                </div>
+
+                <!-- Advantage 5 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Seamless, Native Integration</h3>
+                    <p>Our widget blends perfectly with any website's design. With full CSS control, it looks and feels
+                        like a natural part of your site, not a bolted-on third-party tool.</p>
+
+                </div>
+
+                <!-- Advantage 6 -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="advantage-indicator"></div>
+                    <h3>Actionable Insights & Analytics</h3>
+                    <p>Turn conversations into strategy. Our dashboard gives you real-time insights into user questions,
+                        chatbot performance, and customer satisfaction to continuously optimize.</p>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section animate-on-scroll">
+        <div class="container">
+            <h2 class="pricing-title"> Choose<span class="gradient-text">Your Plan</span> </h2>
+            <p class="pricing-subtitle ">Start free, upgrade when you need more power</p>
+
+            <div class="pricing-grid ">
+                <!-- Free Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-badge free">FREE</div>
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">0</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p class="plan-desc">Perfect for trying out</p>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> 1 AI Agent</li>
+                        <li><span class="check">✓</span> 100 Messages/month</li>
+                        <li><span class="check">✓</span> 1 Knowledge Base File (2MB)</li>
+                        <li><span class="check">✓</span> 1 AI Model</li>
+                        <li><span class="cross">✗</span> Custom Bot Name</li>
+                        <li><span class="cross">✗</span> Custom Logo</li>
+                        <li class="watermark-note">⚠️ Powered by devexhub.com</li>
+                    </ul>
+
+                    <button id="freePlanBtn" class="btn pricing-btn" onclick="openModal('login')">Get Started
+                        Free</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">⭐ MOST POPULAR</div>
+                    <div class="pricing-badge pro">PRO</div>
+                    <h3 class="plan-name">Professional</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">5</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p class="plan-desc">Best for growing businesses</p>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> 4 AI Agents</li>
+                        <li><span class="check">✓</span> 15,000 Messages/month</li>
+                        <li><span class="check">✓</span> Unlimited Files (10MB each)</li>
+                        <li><span class="check">✓</span> Unlimited AI Models</li>
+                        <li><span class="check">✓</span> Custom Bot Name</li>
+                        <li><span class="check">✓</span> Custom Logo</li>
+                        <li><span class="check">✓</span> 24/7 Priority Support</li>
+                        <li><span class="check">✓</span> No Watermark</li>
+                    </ul>
+
+                    <button id="proPlanBtn" class="btn pricing-btn pro-btn" onclick="handlePlanClick('pro')">Upgrade to
+                        Pro</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-badge enterprise">ENTERPRISE</div>
+                    <h3 class="plan-name">Business</h3>
+                    <div class="plan-price">
+                        <span class="currency">$</span>
+                        <span class="amount">10</span>
+                        <span class="period">/month</span>
+                    </div>
+                    <p class="plan-desc">For large teams & agencies</p>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> 10 AI Agents</li>
+                        <li><span class="check">✓</span> 40,000 Messages/month</li>
+                        <li><span class="check">✓</span> Unlimited Files (50MB each)</li>
+                        <li><span class="check">✓</span> Unlimited AI Models</li>
+                        <li><span class="check">✓</span> Custom Bot Name</li>
+                        <li><span class="check">✓</span> Custom Logo</li>
+                        <li><span class="check">✓</span> 24/7 Priority Support</li>
+                        <li><span class="check">✓</span> Team Collaboration</li>
+                    </ul>
+
+                    <button id="businessPlanBtn" class="btn pricing-btn" onclick="handlePlanClick('business')">Upgrade
+                        to Business</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Companies Section -->
+    <section class="companies">
+        <div class="container">
+            <!-- Title -->
+            <div class="companies-title">TRUSTED BY INNOVATIVE COMPANIES</div>
+
+            <!-- Marquee Container -->
+            <div class="marquee-container">
+                <!-- Gradient Overlays -->
+                <div class="marquee-gradient-left"></div>
+                <div class="marquee-gradient-right"></div>
+
+                <!-- Marquee Content -->
+                <div class="marquee-wrapper">
+                    <div class="marquee">
+                        <div class="company">
+                            <span>TechCorp</span>
+                        </div>
+                        <div class="company">
+                            <span>StartupXYZ</span>
+                        </div>
+                        <div class="company">
+                            <span>GlobalAI</span>
+                        </div>
+                        <div class="company">
+                            <span>DataFlow</span>
+                        </div>
+                        <div class="company">
+                            <span>CloudNine</span>
+                        </div>
+                        <div class="company">
+                            <span>InnovateLab</span>
+                        </div>
+                        <!-- Duplicate for seamless loop -->
+                        <div class="company">
+                            <span>TechCorp</span>
+                        </div>
+                        <div class="company">
+                            <span>StartupXYZ</span>
+                        </div>
+                        <div class="company">
+                            <span>GlobalAI</span>
+                        </div>
+                        <div class="company">
+                            <span>DataFlow</span>
+                        </div>
+                        <div class="company">
+                            <span>CloudNine</span>
+                        </div>
+                        <div class="company">
+                            <span>InnovateLab</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="faq-container">
+                <!-- Section Title -->
+                <div class="section-title">
+                    <h2>Frequently Asked <span class="gradient-text">Questions</span></h2>
+                    <p>Got questions? We've got answers.</p>
+                </div>
+
+                <!-- FAQ Items -->
+                <div class="faq-items">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item" id="faq1">
+                        <button class="faq-question">
+                            How doesBotCraft train the AI on my data?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>BotCraft uses advanced AI models to analyze and understand your uploaded documents,
+                                PDFs,
+                                and website content. The AI learns from your specific data and creates a knowledge base
+                                that it can reference when answering questions. Your data remains secure and is only
+                                used to train your specific chatbot.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="faq-item" id="faq2">
+                        <button class="faq-question">
+                            Can I customize the chatbot's appearance?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes! You can fully customize your chatbot's appearance including colors, position on
+                                screen, greeting messages, and even add your company logo. Pro and Enterprise plans
+                                offer advanced customization options and white-label solutions.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="faq-item" id="faq3">
+                        <button class="faq-question">
+                            What AI models are available?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>BotCraft supports multiple AI models including GPT-4, Claude, and our proprietary
+                                fine-tuned models. You can choose the model that best fits your needs based on
+                                performance, cost, and specific capabilities. We're constantly adding new models as they
+                                become available.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="faq-item" id="faq4">
+                        <button class="faq-question">
+                            How do I embed the chatbot on my website?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Embedding is simple! After creating your chatbot, you'll receive a single line of
+                                JavaScript code. Just copy and paste it into your website's HTML code. The chatbot will
+                                appear as a floating widget on your site, ready to assist visitors 24/7.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="faq-item" id="faq5">
+                        <button class="faq-question">
+                            Is my data secure?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely. We take data security seriously. All data is encrypted in transit and at
+                                rest. We never use your data to train models for other customers, and we comply with
+                                major privacy regulations including GDPR and CCPA. Enterprise plans offer additional
+                                security features and compliance certifications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <!-- Background -->
+        <div class="cta-bg"></div>
+
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Build Your <span class="gradient-text">AI Chatbot?</span></h2>
+                <p>Join thousands of businesses using BotCraft to automate customer support and boost engagement.</p>
+                <button id="footerGetStartedBtn" class="cta-btn" onclick="openModal('login')">
+                    Get Started Free
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Login</h2>
+
+            <!-- Step 1: Credentials -->
+            <form id="authForm">
+                <div class="form-group" id="nameGroup" style="display: none;">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group" id="phoneGroup" style="display: none;">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container" style="position: relative;">
+                        <input type="password" id="password" placeholder="Enter your password" required
+                            onkeyup="checkPasswordStrength(this.value)">
+                        <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+                            <i class="far fa-eye" id="passwordToggleIcon"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Password Strength & Validation (Hidden by default, shown on focus/type) -->
+                <div id="passwordStrengthSection" style="display: none; margin-bottom: 20px;">
+                    <div class="strength-meter">
+                        <div class="strength-bar-bg">
+                            <div id="strengthBar" class="strength-bar"></div>
+                        </div>
+                        <p id="strengthText" class="strength-text">Weak</p>
+                    </div>
+                    <ul class="validation-list">
+                        <li id="ruleLength" class="validation-item"><i class="fas fa-circle"></i> Min 8 characters</li>
+                        <li id="ruleUpper" class="validation-item"><i class="fas fa-circle"></i> One uppercase letter
+                        </li>
+                        <li id="ruleNumber" class="validation-item"><i class="fas fa-circle"></i> One number</li>
+                        <li id="ruleSpecial" class="validation-item"><i class="fas fa-circle"></i> One special char
+                            (@$!%*?&)</li>
+                    </ul>
+                </div>
+
+                <!-- New Password Field for Reset Password Section (also needs same features) -->
+                <div class="form-group remember-me-group"
+                    style="display: flex; align-items: center; gap: 8px; margin: 10px 0 15px 0;">
+                    <input type="checkbox" id="rememberMe"
+                        style="width: 18px; height: 18px; cursor: pointer; accent-color: #667eea;">
+                    <label for="rememberMe" style="cursor: pointer; font-size: 14px; color: #666; margin: 0;">Remember
+                        Me</label>
+                </div>
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                <button type="submit" class="btn btn-secondary btn-block" id="submitBtn">Login</button>
+
+                <!-- Divider -->
+                <div style="display: flex; align-items: center; margin: 25px 0;">
+                    <div style="flex: 1; height: 1px; background: #ddd;"></div>
+                    <span style="padding: 0 15px; color: #999; font-size: 14px;">OR</span>
+                    <div style="flex: 1; height: 1px; background: #ddd;"></div>
+                </div>
+
+                <!-- Google Sign-In Button -->
+                <button type="button" class="google-signin-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
+                    <svg width="18" height="18" style="margin-right: 10px;" viewBox="0 0 48 48">
+                        <path fill="#EA4335"
+                            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                        <path fill="#4285F4"
+                            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                        <path fill="#FBBC05"
+                            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                        <path fill="#34A853"
+                            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                        <path fill="none" d="M0 0h48v48H0z" />
+                    </svg>
+                    Sign in with Google
+                </button>
+            </form>
+
+            <!-- Step 2: OTP Verification -->
+            <div id="otpSection" style="display: none;">
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    We've sent a verification code to<br>
+                    <strong id="otpEmailDisplay"></strong>
+                </p>
+                <div class="form-group">
+                    <label for="otp">Enter OTP</label>
+                    <input type="text" id="otp" placeholder="Enter 6-digit OTP" maxlength="6"
+                        style="text-align: center; font-size: 24px; letter-spacing: 8px;">
+                </div>
+                <div class="error-message" id="otpErrorMessage"></div>
+                <div class="success-message" id="otpSuccessMessage"></div>
+                <button type="button" class="btn btn-secondary btn-block" id="verifyOtpBtn" onclick="verifyOTP()">Verify
+                    OTP</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <span id="resendTimer" style="color: #666;"></span>
+                    <button type="button" id="resendBtn" onclick="resendOTP()"
+                        style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 600; display: none;">
+                        Resend OTP
+                    </button>
+                </div>
+                <button type="button"
+                    style="background: none; border: none; color: #666; cursor: pointer; margin-top: 10px; width: 100%;"
+                    onclick="backToCredentials()">
+                    ← Back to Login
+                </button>
+            </div>
+
+            <!-- Forgot Password - Step 1: Email -->
+            <div id="forgotPasswordSection" style="display: none;">
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    Enter your email address and we'll send you an OTP to reset your password.
+                </p>
+                <div class="form-group">
+                    <label for="forgotEmail">Email</label>
+                    <input type="email" id="forgotEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="error-message" id="forgotErrorMessage"></div>
+                <div class="success-message" id="forgotSuccessMessage"></div>
+                <button type="button" class="btn btn-secondary btn-block" id="forgotSubmitBtn"
+                    onclick="sendForgotOTP()">Send OTP</button>
+                <button type="button"
+                    style="background: none; border: none; color: #666; cursor: pointer; margin-top: 15px; width: 100%;"
+                    onclick="backToLogin()">
+                    ← Back to Login
+                </button>
+            </div>
+
+            <!-- Forgot Password - Step 2: OTP -->
+            <div id="forgotOtpSection" style="display: none;">
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    We've sent a verification code to<br>
+                    <strong id="forgotOtpEmailDisplay"></strong>
+                </p>
+                <div class="form-group">
+                    <label for="forgotOtp">Enter OTP</label>
+                    <input type="text" id="forgotOtp" placeholder="Enter 6-digit OTP" maxlength="6"
+                        style="text-align: center; font-size: 24px; letter-spacing: 8px;">
+                </div>
+                <div class="error-message" id="forgotOtpErrorMessage"></div>
+                <div class="success-message" id="forgotOtpSuccessMessage"></div>
+                <button type="button" class="btn btn-secondary btn-block" id="verifyForgotOtpBtn"
+                    onclick="verifyForgotOTP()">Verify OTP</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <span id="forgotResendTimer" style="color: #666;"></span>
+                    <button type="button" id="forgotResendBtn" onclick="resendForgotOTP()"
+                        style="background: none; border: none; color: #667eea; cursor: pointer; font-weight: 600; display: none;">
+                        Resend OTP
+                    </button>
+                </div>
+                <button type="button"
+                    style="background: none; border: none; color: #666; cursor: pointer; margin-top: 10px; width: 100%;"
+                    onclick="backToLogin()">
+                    ← Back to Login
+                </button>
+            </div>
+
+            <!-- Forgot Password - Step 3: New Password -->
+            <div id="resetPasswordSection" style="display: none;">
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    Enter your new password below.
+                </p>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password (min 6 characters)"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                </div>
+                <div class="error-message" id="resetErrorMessage"></div>
+                <div class="success-message" id="resetSuccessMessage"></div>
+                <button type="button" class="btn btn-secondary btn-block" id="resetPasswordBtn"
+                    onclick="resetPassword()">Reset Password</button>
+            </div>
+
+            <div class="switch-mode" id="switchModeDiv">
+                <span id="switchText">Don't have an account? </span>
+                <a href="#" onclick="toggleMode(event)" id="switchLink">Sign Up</a>
+                <br>
+                <a href="#" onclick="showForgotPassword(event)"
+                    style="color: #667eea; font-size: 14px; margin-top: 10px; display: inline-block;">Forgot
+                    Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLoginMode = true;
+        let currentEmail = '';
+        let currentPurpose = 'login';
+        let resendTimerInterval = null;
+
+        // Remember Me - Load saved email on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const rememberedEmail = localStorage.getItem('rememberedEmail');
+            if (rememberedEmail) {
+                document.getElementById('email').value = rememberedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        // Remember Me - Save or clear email
+        function handleRememberMe(email) {
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            if (rememberMeCheckbox && rememberMeCheckbox.checked) {
+                localStorage.setItem('rememberedEmail', email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+        }
+
+        function openModal(mode) {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        // Google Sign-In handler
+        async function signInWithGoogle() {
+            try {
+                const response = await fetch('http://localhost:8000/auth/google');
+                const data = await response.json();
+
+                if (data.url) {
+                    // Redirect to Google OAuth page
+                    window.location.href = data.url;
+                } else {
+                    showToast('Failed to initiate Google Sign-In', 'error');
+                }
+            } catch (error) {
+                console.error('Google Sign-In error:', error);
+                showToast('An error occurred. Please try again.', 'error');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            clearForm();
+            resetToCredentialsStep();
+        }
+
+        function toggleMode(e) {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+
+            if (isLoginMode) {
+                document.getElementById('modalTitle').textContent = 'Login';
+                document.getElementById('submitBtn').textContent = 'Login';
+                document.getElementById('nameGroup').style.display = 'none';
+                document.getElementById('phoneGroup').style.display = 'none';
+                document.getElementById('switchText').textContent = "Don't have an account? ";
+                document.getElementById('switchLink').textContent = 'Sign Up';
+            } else {
+                document.getElementById('modalTitle').textContent = 'Sign Up';
+                document.getElementById('submitBtn').textContent = 'Sign Up';
+                document.getElementById('nameGroup').style.display = 'block';
+                document.getElementById('phoneGroup').style.display = 'block';
+                document.getElementById('switchText').textContent = 'Already have an account? ';
+                document.getElementById('switchLink').textContent = 'Login';
+            }
+            clearMessages();
+        }
+
+        function clearForm() {
+            document.getElementById('authForm').reset();
+            document.getElementById('otp').value = '';
+            clearMessages();
+            clearOtpMessages();
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function clearOtpMessages() {
+            document.getElementById('otpErrorMessage').style.display = 'none';
+            document.getElementById('otpSuccessMessage').style.display = 'none';
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showOtpError(message) {
+            const errorEl = document.getElementById('otpErrorMessage');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            document.getElementById('otpSuccessMessage').style.display = 'none';
+        }
+
+        function showOtpSuccess(message) {
+            const successEl = document.getElementById('otpSuccessMessage');
+            successEl.textContent = message;
+            successEl.style.display = 'block';
+            document.getElementById('otpErrorMessage').style.display = 'none';
+        }
+
+        function showOtpStep() {
+            document.getElementById('authForm').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('switchModeDiv').style.display = 'none';
+            document.getElementById('otpEmailDisplay').textContent = currentEmail;
+            document.getElementById('modalTitle').textContent = 'Verify OTP';
+            startResendTimer();
+        }
+
+        function resetToCredentialsStep() {
+            document.getElementById('authForm').style.display = 'block';
+            document.getElementById('otpSection').style.display = 'none';
+            document.getElementById('switchModeDiv').style.display = 'block';
+            document.getElementById('modalTitle').textContent = isLoginMode ? 'Login' : 'Sign Up';
+            if (resendTimerInterval) {
+                clearInterval(resendTimerInterval);
+            }
+        }
+
+        function backToCredentials() {
+            resetToCredentialsStep();
+            clearOtpMessages();
+        }
+
+        function startResendTimer() {
+            let seconds = 60;
+            document.getElementById('resendBtn').style.display = 'none';
+            document.getElementById('resendTimer').textContent = `Resend OTP in ${seconds}s`;
+
+            resendTimerInterval = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(resendTimerInterval);
+                    document.getElementById('resendTimer').textContent = '';
+                    document.getElementById('resendBtn').style.display = 'inline';
+                } else {
+                    document.getElementById('resendTimer').textContent = `Resend OTP in ${seconds}s`;
+                }
+            }, 1000);
+        }
+
+        // Step 1: Send OTP
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const purpose = isLoginMode ? 'login' : 'signup';
+
+            const payload = { email, password, purpose };
+            if (!isLoginMode) {
+                payload.name = name;
+                payload.phone = phone;
+            }
+
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = 'Sending OTP...';
+
+            try {
+                const response = await fetch('/api/send-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentEmail = email;
+                    currentPurpose = purpose;
+                    // Handle Remember Me - save email if checkbox is checked
+                    handleRememberMe(email);
+                    showSuccess('OTP sent! Check your email.');
+                    setTimeout(() => {
+                        showOtpStep();
+                    }, 500);
+                } else {
+                    showError(data.error || 'Failed to send OTP');
+                }
+            } catch (error) {
+                showError('Connection error. Please try again.');
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').textContent = isLoginMode ? 'Login' : 'Sign Up';
+            }
+        });
+
+        // Step 2: Verify OTP
+        async function verifyOTP() {
+            clearOtpMessages();
+            const otp = document.getElementById('otp').value;
+
+            if (!otp || otp.length !== 6) {
+                showOtpError('Please enter a valid 6-digit OTP');
+                return;
+            }
+
+            document.getElementById('verifyOtpBtn').disabled = true;
+            document.getElementById('verifyOtpBtn').textContent = 'Verifying...';
+
+            try {
+                const response = await fetch('/api/verify-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: currentEmail,
+                        otp: otp,
+                        purpose: currentPurpose
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showOtpSuccess(data.message);
+                    if (data.token) {
+                        sessionStorage.setItem('token', data.token);
+                        sessionStorage.setItem('user', JSON.stringify(data.user));
+
+                        showSuccess('Login Successful!');
+                        closeModal();
+                        updateUIForLoggedInUser();
+
+                        // Check if user was trying to purchase a plan
+                        if (pendingPlan) {
+                            const planToUpgrade = pendingPlan;
+                            pendingPlan = null; // Clear pending plan
+                            setTimeout(() => {
+                                upgradePlan(planToUpgrade);
+                            }, 500); // Small delay for smooth UX
+                        }
+                    }
+                } else {
+                    showOtpError(data.error || 'Verification failed');
+                }
+            } catch (error) {
+                showOtpError('Connection error. Please try again.');
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('verifyOtpBtn').disabled = false;
+                document.getElementById('verifyOtpBtn').textContent = 'Verify OTP';
+            }
+        }
+
+        // Forgot Password Logic
+        function showForgotPassword(e) {
+            e.preventDefault();
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('authForm').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'none';
+            document.getElementById('forgotPasswordSection').style.display = 'block';
+            document.getElementById('forgotOtpSection').style.display = 'none';
+            document.getElementById('resetPasswordSection').style.display = 'none';
+            document.getElementById('switchModeDiv').style.display = 'none';
+            document.getElementById('modalTitle').textContent = 'Reset Password';
+            clearForm();
+        }
+
+        function backToLogin() {
+            document.getElementById('forgotPasswordSection').style.display = 'none';
+            document.getElementById('forgotOtpSection').style.display = 'none';
+            document.getElementById('resetPasswordSection').style.display = 'none';
+            document.getElementById('authForm').style.display = 'block';
+            document.getElementById('switchModeDiv').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Login';
+            isLoginMode = true;
+            toggleMode({ preventDefault: () => { } }); // Reset to login mode visual state
+            if (resendTimerInterval) clearInterval(resendTimerInterval);
+        }
+
+        async function sendForgotOTP() {
+            const email = document.getElementById('forgotEmail').value;
+            if (!email) {
+                showForgotError('Please enter your email');
+                return;
+            }
+
+            const btn = document.getElementById('forgotSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                const response = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentEmail = email;
+                    document.getElementById('forgotPasswordSection').style.display = 'none';
+                    document.getElementById('forgotOtpSection').style.display = 'block';
+                    document.getElementById('forgotOtpEmailDisplay').textContent = email;
+                    startForgotResendTimer();
+                } else {
+                    showForgotError(data.error || 'Failed to send OTP');
+                }
+            } catch (error) {
+                showForgotError('Connection error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send OTP';
+            }
+        }
+
+        async function verifyForgotOTP() {
+            const otp = document.getElementById('forgotOtp').value;
+            if (!otp || otp.length !== 6) {
+                showForgotOtpError('Enter a valid 6-digit OTP');
+                return;
+            }
+
+            const btn = document.getElementById('verifyForgotOtpBtn');
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
+
+            try {
+                const response = await fetch('/api/verify-forgot-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, otp })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('forgotOtpSection').style.display = 'none';
+                    document.getElementById('resetPasswordSection').style.display = 'block';
+                } else {
+                    showForgotOtpError(data.error || 'Invalid OTP');
+                }
+            } catch (error) {
+                showForgotOtpError('Connection error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Verify OTP';
+            }
+        }
+
+        async function resetPassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const otp = document.getElementById('forgotOtp').value;
+
+            if (newPassword !== confirmPassword) {
+                showResetError('Passwords do not match');
+                return;
+            }
+            if (newPassword.length < 6) {
+                showResetError('Password must be at least 6 characters');
+                return;
+            }
+
+            const btn = document.getElementById('resetPasswordBtn');
+            btn.disabled = true;
+            btn.textContent = 'Resetting...';
+
+            try {
+                const response = await fetch('/api/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: currentEmail,
+                        otp: otp,
+                        new_password: newPassword
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('Password reset successful! You can now login.');
+                    closeModal();
+                } else {
+                    const data = await response.json();
+                    showResetError(data.error || 'Failed to reset password');
+                }
+            } catch (error) {
+                showResetError('Connection error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Reset Password';
+            }
+        }
+
+        async function resendForgotOTP() {
+            const btn = document.getElementById('forgotResendBtn');
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail })
+                });
+
+                if (response.ok) {
+                    startForgotResendTimer();
+                } else {
+                    showForgotOtpError('Failed to resend OTP');
+                }
+            } catch (error) {
+                showForgotOtpError('Connection error');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function startForgotResendTimer() {
+            let seconds = 60;
+            const timerEl = document.getElementById('forgotResendTimer');
+            const btnEl = document.getElementById('forgotResendBtn');
+
+            btnEl.style.display = 'none';
+            timerEl.textContent = `Resend in ${seconds}s`;
+
+            if (resendTimerInterval) clearInterval(resendTimerInterval);
+
+            resendTimerInterval = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(resendTimerInterval);
+                    timerEl.textContent = '';
+                    btnEl.style.display = 'inline';
+                } else {
+                    timerEl.textContent = `Resend in ${seconds}s`;
+                }
+            }, 1000);
+        }
+
+        // Helper functions for error display
+        function showForgotError(msg) {
+            document.getElementById('forgotErrorMessage').textContent = msg;
+            document.getElementById('forgotErrorMessage').style.display = 'block';
+        }
+        function showForgotOtpError(msg) {
+            document.getElementById('forgotOtpErrorMessage').textContent = msg;
+            document.getElementById('forgotOtpErrorMessage').style.display = 'block';
+        }
+        function showResetError(msg) {
+            document.getElementById('resetErrorMessage').textContent = msg;
+            document.getElementById('resetErrorMessage').style.display = 'block';
+        }
+
+        // Resend OTP
+        async function resendOTP() {
+            document.getElementById('resendBtn').disabled = true;
+
+            try {
+                const response = await fetch('/api/resend-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: currentEmail,
+                        purpose: currentPurpose
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showOtpSuccess('New OTP sent to your email');
+                    startResendTimer();
+                } else {
+                    showOtpError(data.error || 'Failed to resend OTP');
+                }
+            } catch (error) {
+                showOtpError('Connection error. Please try again.');
+            } finally {
+                document.getElementById('resendBtn').disabled = false;
+            }
+        }
+
+        // Allow Enter key to verify OTP
+        document.getElementById('otp').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verifyOTP();
+            }
+        });
+
+        // Password Feature Logic
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const iconId = inputId === 'password' ? 'passwordToggleIcon' : 'newPasswordToggleIcon';
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function checkPasswordStrength(password) {
+            // Show section if hidden
+            const section = document.getElementById('passwordStrengthSection');
+            if (password.length > 0) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+
+            // Rules
+            const lengthRule = password.length >= 8;
+            const upperRule = /[A-Z]/.test(password);
+            const numberRule = /[0-9]/.test(password);
+            const specialRule = /[@$!%*?&]/.test(password);
+
+            // Update UI Icons
+            updateValidationItem('ruleLength', lengthRule);
+            updateValidationItem('ruleUpper', upperRule);
+            updateValidationItem('ruleNumber', numberRule);
+            updateValidationItem('ruleSpecial', specialRule);
+
+            // Calculate Strength
+            let strength = 0;
+            if (lengthRule) strength++;
+            if (upperRule) strength++;
+            if (numberRule) strength++;
+            if (specialRule) strength++;
+
+            // Update Bar & Text
+            const bar = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+
+            bar.className = 'strength-bar'; // Reset
+            if (strength === 0) {
+                bar.style.width = '0%';
+                text.textContent = '';
+            } else if (strength <= 2) {
+                bar.style.width = '33%';
+                bar.classList.add('weak');
+                text.textContent = 'Weak';
+                text.style.color = '#ef4444';
+            } else if (strength === 3) {
+                bar.style.width = '66%';
+                bar.classList.add('medium');
+                text.textContent = 'Medium';
+                text.style.color = '#f59e0b';
+            } else {
+                bar.style.width = '100%';
+                bar.classList.add('strong');
+                text.textContent = 'Strong';
+                text.style.color = '#10b981';
+            }
+        }
+
+        function updateValidationItem(elementId, isValid) {
+            const el = document.getElementById(elementId);
+            const icon = el.querySelector('i');
+            if (isValid) {
+                el.classList.add('valid');
+                icon.classList.remove('fa-circle');
+                icon.classList.add('fa-check-circle');
+            } else {
+                el.classList.remove('valid');
+                icon.classList.remove('fa-check-circle');
+                icon.classList.add('fa-circle');
+            }
+        }
+
+        // UI State Management for Login/Logout
+        let pendingPlan = null; // Store plan if user clicks upgrade before login
+
+        // Handle plan button clicks (Pro/Business)
+        function handlePlanClick(plan) {
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                // User is logged in, proceed to payment
+                upgradePlan(plan);
+            } else {
+                // User not logged in, store plan and show login modal
+                pendingPlan = plan;
+                openModal('login');
+            }
+        }
+
+        // Upgrade plan with Razorpay payment gateway
+        async function upgradePlan(plan) {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                showToast('Please login first', 'error');
+                return;
+            }
+
+            try {
+                // Create order
+                const orderResponse = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ plan })
+                });
+
+                const orderData = await orderResponse.json();
+
+                if (!orderResponse.ok) {
+                    showToast(orderData.error || 'Failed to create order', 'error');
+                    return;
+                }
+
+                // Get user info for prefill
+                const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+                // Open Razorpay checkout
+                const options = {
+                    key: orderData.key_id,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    name: 'BotCraft',
+                    description: `Upgrade to ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`,
+                    order_id: orderData.order_id,
+                    handler: async function (response) {
+                        // Verify payment
+                        const verifyResponse = await fetch('/api/verify-payment', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                plan: plan
+                            })
+                        });
+
+                        const verifyData = await verifyResponse.json();
+
+                        if (verifyResponse.ok) {
+                            showToast(verifyData.message);
+                            // Refresh UI to show updated plan buttons without redirecting
+                            updateUIForLoggedInUser();
+                        } else {
+                            showToast('Payment verification failed: ' + (verifyData.error || 'Unknown error'), 'error');
+                        }
+                    },
+                    prefill: {
+                        email: (JSON.parse(sessionStorage.getItem('user') || localStorage.getItem('user') || '{}')).email || ''
+                    },
+                    theme: {
+                        color: '#667eea'
+                    }
+                };
+
+                const rzp = new Razorpay(options);
+                rzp.open();
+
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', checkLoginState);
+
+        // Premium Notification System
+        function showToast(message, type = 'success') {
+            // Create container if it doesn't exist
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+
+            const icon = type === 'success' ? 'fa-check' : 'fa-exclamation-triangle';
+
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <div class="toast-progress"></div>
+            `;
+
+            container.appendChild(toast);
+
+            // Animate progress bar
+            const progress = toast.querySelector('.toast-progress');
+            progress.style.animation = 'toastProgress 3s linear forwards';
+
+            // Show toast
+            setTimeout(() => toast.classList.add('active'), 10);
+
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        function checkLoginState() {
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                updateUIForLoggedInUser();
+            } else {
+                updateUIForLoggedOutUser();
+            }
+        }
+
+        async function updateUIForLoggedInUser() {
+            // Check if user is admin first
+            const token = sessionStorage.getItem('token');
+            let isAdmin = false;
+            let dashboardUrl = 'dashboard.html';
+
+            try {
+                const adminResponse = await fetch('/api/check-admin', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (adminResponse.ok) {
+                    const adminData = await adminResponse.json();
+                    isAdmin = adminData.is_admin;
+                    if (isAdmin) {
+                        dashboardUrl = 'admin_dashboard.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking admin status:', error);
+            }
+
+            // Desktop Navbar - hide login and get started, show auth buttons
+            if (document.getElementById('navLoginBtn')) document.getElementById('navLoginBtn').style.display = 'none';
+            if (document.getElementById('navGetStartedBtn')) document.getElementById('navGetStartedBtn').style.display = 'none';
+            if (document.getElementById('navAuthButtons')) document.getElementById('navAuthButtons').style.display = 'flex';
+
+            // Mobile Navbar - hide login and get started, show auth buttons
+            if (document.getElementById('mobileLoginBtn')) document.getElementById('mobileLoginBtn').style.display = 'none';
+            if (document.getElementById('mobileGetStartedBtn')) document.getElementById('mobileGetStartedBtn').style.display = 'none';
+            if (document.getElementById('mobileAuthButtons')) document.getElementById('mobileAuthButtons').style.display = 'flex';
+
+            // Update Dashboard button in navbar to correct dashboard
+            const navDashboardBtn = document.getElementById('navDashboardBtn');
+            if (navDashboardBtn && isAdmin) {
+                navDashboardBtn.onclick = () => window.location.href = dashboardUrl;
+            }
+            const mobileDashboardBtn = document.getElementById('mobileDashboardBtn');
+            if (mobileDashboardBtn && isAdmin) {
+                mobileDashboardBtn.onclick = () => window.location.href = dashboardUrl;
+            }
+
+            // Hero Button
+            const heroBtn = document.getElementById('heroBtn');
+            if (heroBtn) {
+                heroBtn.innerHTML = 'Dashboard <i class="fas fa-arrow-right"></i>';
+                heroBtn.onclick = () => window.location.href = dashboardUrl;
+            }
+
+            // Footer Get Started Button
+            const footerBtn = document.getElementById('footerGetStartedBtn');
+            if (footerBtn) {
+                footerBtn.innerHTML = 'Go to dashboard <i class="fas fa-arrow-right"></i>';
+                footerBtn.onclick = () => window.location.href = dashboardUrl;
+            }
+
+            // Free Plan Button - always shows "Go to dashboard" for logged in users
+            const freePlanBtn = document.getElementById('freePlanBtn');
+            if (freePlanBtn) {
+                freePlanBtn.textContent = 'Go to dashboard';
+                freePlanBtn.onclick = () => window.location.href = dashboardUrl;
+            }
+
+            // Fetch user's actual plan from API
+            let userPlan = 'free';
+
+            try {
+                const response = await fetch('/api/user/plan', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    userPlan = data.plan || 'free';
+                }
+            } catch (error) {
+                console.error('Error fetching plan:', error);
+            }
+
+            // Pro Plan Button
+            const proPlanBtn = document.getElementById('proPlanBtn');
+            if (proPlanBtn) {
+                if (userPlan === 'pro' || userPlan === 'business') {
+                    // User has Pro or higher plan
+                    proPlanBtn.textContent = 'Go to dashboard';
+                    proPlanBtn.onclick = () => window.location.href = dashboardUrl;
+                } else {
+                    // User has Free plan, show upgrade option
+                    proPlanBtn.textContent = 'Upgrade to Pro';
+                    proPlanBtn.onclick = () => handlePlanClick('pro');
+                }
+            }
+
+            // Business Plan Button
+            const businessPlanBtn = document.getElementById('businessPlanBtn');
+            if (businessPlanBtn) {
+                if (userPlan === 'business') {
+                    // User has Business plan
+                    businessPlanBtn.textContent = 'Go to dashboard';
+                    businessPlanBtn.onclick = () => window.location.href = dashboardUrl;
+                } else {
+                    // User has Free or Pro plan, show upgrade option
+                    businessPlanBtn.textContent = 'Upgrade to Business';
+                    businessPlanBtn.onclick = () => handlePlanClick('business');
+                }
+            }
+        }
+
+        function updateUIForLoggedOutUser() {
+            // Desktop Navbar - show login and get started, hide auth buttons
+            if (document.getElementById('navLoginBtn')) document.getElementById('navLoginBtn').style.display = 'block';
+            if (document.getElementById('navGetStartedBtn')) document.getElementById('navGetStartedBtn').style.display = 'block';
+            if (document.getElementById('navAuthButtons')) document.getElementById('navAuthButtons').style.display = 'none';
+
+            // Mobile Navbar - show login and get started, hide auth buttons
+            if (document.getElementById('mobileLoginBtn')) document.getElementById('mobileLoginBtn').style.display = 'block';
+            if (document.getElementById('mobileGetStartedBtn')) document.getElementById('mobileGetStartedBtn').style.display = 'block';
+            if (document.getElementById('mobileAuthButtons')) document.getElementById('mobileAuthButtons').style.display = 'none';
+
+            // Hero Button
+            const heroBtn = document.getElementById('heroBtn');
+            if (heroBtn) {
+                heroBtn.innerHTML = 'Get Started Free <i class="fas fa-arrow-right"></i>';
+                heroBtn.onclick = function () { openModal('login'); };
+            }
+
+            // Footer Get Started Button
+            const footerBtn = document.getElementById('footerGetStartedBtn');
+            if (footerBtn) {
+                footerBtn.innerHTML = 'Get Started Free <i class="fas fa-arrow-right"></i>';
+                footerBtn.onclick = function () { openModal('login'); };
+            }
+
+            // Free Plan Button
+            const freePlanBtn = document.getElementById('freePlanBtn');
+            if (freePlanBtn) {
+                freePlanBtn.textContent = 'Get Started Free';
+                freePlanBtn.onclick = function () { openModal('login'); };
+            }
+
+            // Pro Plan Button - reset to default
+            const proPlanBtn = document.getElementById('proPlanBtn');
+            if (proPlanBtn) {
+                proPlanBtn.textContent = 'Upgrade to Pro';
+                proPlanBtn.onclick = () => handlePlanClick('pro');
+            }
+
+            // Business Plan Button - reset to default
+            const businessPlanBtn = document.getElementById('businessPlanBtn');
+            if (businessPlanBtn) {
+                businessPlanBtn.textContent = 'Upgrade to Business';
+                businessPlanBtn.onclick = () => handlePlanClick('business');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', checkLoginState);
+
+        // Close modal on outside click
+        window.onclick = function (event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Section -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="BotCraft Logo" style="height: 40px; width: auto;">
+                    </div>
+                    <p class="footer-tagline">
+                        Build AI-powered chatbots that understand your business and delight your customers.
+                    </p>
+                </div>
+
+                <!-- Product Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Product</h4>
+                    <ul class="footer-menu">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                    </ul>
+                </div>
+
+
+                <!-- Legal Links -->
+                <div class="footer-links">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-menu">
+                        <li><a href="/privacy.html">Privacy</a></li>
+                        <li><a href="/terms.html">Terms</a></li>
+                        <li><a href="/about.html">About us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-item">
+                    <h4>contact us</h4>
+                    <div class="fotter-address">
+                        <p><i class="fa fa-location-arrow" aria-hidden="true"></i> GR Square, Plot No D-254, 4th Floor,
+                            Phase-8A, Mohali</p>
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> support@BotCraft.com</p>
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> (+91) 9875905952</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2024BotCraft. All rights reserved.</p>
+                <div class="contact-email">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:support@BotCraft.com">support@BotCraft.com</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Go to top">↑</button>
+
+    <script>
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        }
+
+        backToTopBtn.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        function toggleFaq(element) {
+            element.parentElement.classList.toggle('active');
+        }
+
+        // Scroll Animation Observer
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        // Trigger stats counter if this is the stats section
+                        if (entry.target.classList.contains('stats-section')) {
+                            const counters = entry.target.querySelectorAll('h2');
+                            counters.forEach(counter => {
+                                const targetText = counter.innerText;
+                                // Parse number and suffix
+                                let target = 0;
+                                let suffix = "";
+
+                                if (targetText.includes("+") && targetText.includes("M")) {
+                                    suffix = "M+";
+                                    target = parseFloat(targetText.replace('M+', ''));
+                                } else if (targetText.includes("+")) {
+                                    suffix = "+";
+                                    target = parseFloat(targetText.replace(/,/g, '').replace('+', ''));
+                                } else if (targetText.includes("%")) {
+                                    suffix = "%";
+                                    target = parseFloat(targetText.replace('%', ''));
+                                } else {
+                                    target = parseFloat(targetText.replace(/,/g, ''));
+                                }
+
+                                // Animate
+                                let current = 0;
+                                const increment = target / 40;
+                                const timer = setInterval(() => {
+                                    current += increment;
+                                    if (current >= target) {
+                                        counter.innerText = targetText;
+                                        clearInterval(timer);
+                                    } else {
+                                        if (suffix === "M+") {
+                                            counter.innerText = Math.floor(current) + suffix;
+                                        } else if (suffix === "%") {
+                                            counter.innerText = Math.floor(current * 10) / 10 + suffix;
+                                        } else {
+                                            counter.innerText = Math.floor(current).toLocaleString() + suffix;
+                                        }
+                                    }
+                                }, 30);
+                            });
+                        }
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('demoVideo');
+            if (video) {
+                // Ensure video plays
+                video.play().catch(e => {
+                    console.log('Autoplay prevented:', e);
+                    // Add a click listener to body to try playing again on user interaction if needed
+                });
+            }
+        });
+
+        function toggleMute() {
+            const video = document.getElementById('demoVideo');
+            const icon = document.getElementById('muteIcon');
+            if (video.muted) {
+                video.muted = false;
+                icon.classList.remove('fa-volume-mute');
+                icon.classList.add('fa-volume-up');
+            } else {
+                video.muted = true;
+                icon.classList.remove('fa-volume-up');
+                icon.classList.add('fa-volume-mute');
+            }
+        }
+    </script>
+    <script>
+        // Simple animations for the hero section
+        document.addEventListener('DOMContentLoaded', function () {
+            // Animate statistics counting
+            function animateCounter(elementId, finalValue, suffix = '') {
+                const element = document.getElementById(elementId);
+                let current = 0;
+                const increment = finalValue / 50; // 50 steps
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= finalValue) {
+                        element.textContent = finalValue + suffix;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current) + suffix;
+                    }
+                }, 30);
+            }
+
+            // Start counters after a delay
+            setTimeout(() => {
+                animateCounter('stat1', 10000, '+');
+                animateCounter('stat2', 5, 'M+');
+                animateCounter('stat3', 99.9, '%');
+            }, 500);
+
+            // Message animation
+            const messages = document.querySelectorAll('.message');
+            messages.forEach((msg, index) => {
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateY(10px)';
+
+                setTimeout(() => {
+                    msg.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    msg.style.opacity = '1';
+                    msg.style.transform = 'translateY(0)';
+                }, index * 400);
+            });
+
+            // Typing indicator animation
+            const typing = document.querySelector('.typing');
+            typing.style.opacity = '0';
+            setTimeout(() => {
+                typing.style.transition = 'opacity 0.5s ease';
+                typing.style.opacity = '1';
+            }, 1600);
+
+            // Button hover effects
+            const buttons = document.querySelectorAll('.btn, .send-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    if (this.classList.contains('btn-primary') || this.classList.contains('send-btn')) {
+                        this.style.background = 'linear-gradient(90deg, #22d3ee, #a78bfa)';
+                    }
+                });
+
+                btn.addEventListener('mouseleave', function () {
+                    if (this.classList.contains('btn-primary')) {
+                        this.style.background = 'linear-gradient(90deg, #06b6d4, #8b5cf6)';
+                    }
+                    if (this.classList.contains('send-btn')) {
+                        this.style.background = 'linear-gradient(90deg, #06b6d4, #8b5cf6)';
+                    }
+                });
+            });
+
+            // Chat functionality
+            const chatInput = document.querySelector('.chat-input');
+            const sendBtn = document.querySelector('.send-btn');
+            const messagesContainer = document.querySelector('.messages');
+            const typingIndicator = document.querySelector('.typing');
+
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const messageText = chatInput.value.trim();
+                if (!messageText) return;
+
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user';
+                userMessage.textContent = messageText;
+                userMessage.style.opacity = '0';
+                userMessage.style.transform = 'translateY(10px)';
+                messagesContainer.insertBefore(userMessage, typingIndicator);
+
+                setTimeout(() => {
+                    userMessage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    userMessage.style.opacity = '1';
+                    userMessage.style.transform = 'translateY(0)';
+                }, 100);
+
+                // Clear input
+                chatInput.value = '';
+
+                // Simulate AI response after delay
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot';
+                    botMessage.textContent = getAIResponse(messageText);
+                    botMessage.style.opacity = '0';
+                    botMessage.style.transform = 'translateY(10px)';
+                    messagesContainer.insertBefore(botMessage, typingIndicator);
+
+                    setTimeout(() => {
+                        botMessage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        botMessage.style.opacity = '1';
+                        botMessage.style.transform = 'translateY(0)';
+                    }, 100);
+                }, 1000);
+            }
+
+            function getAIResponse(userMessage) {
+                const responses = [
+                    "Great question! Our AI can be trained on your specific documents and data.",
+                    "Yes, you can customize everything from colors to response behavior.",
+                    "We support multiple languages and can handle complex conversations.",
+                    "Our chatbots integrate with popular platforms like Shopify, WordPress, and more.",
+                    "You can monitor performance and get analytics through our dashboard."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            // Auto-scroll chat to bottom
+            function scrollChatToBottom() {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // Initial scroll
+            setTimeout(scrollChatToBottom, 500);
+        });
+    </script>
+    <script>
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            const icon = question.querySelector('i');
+
+            // Store the full height for each answer
+            answer.dataset.fullHeight = answer.scrollHeight + 'px';
+
+            question.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
+
+                // Toggle the active class
+                if (!isOpen) {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            const otherAnswer = otherItem.querySelector('.faq-answer');
+                            const otherIcon = otherItem.querySelector('.faq-question i');
+                            otherAnswer.style.maxHeight = '0';
+                            otherIcon.style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    // Open this item
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.dataset.fullHeight;
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    // Close this item
+                    item.classList.remove('active');
+                    answer.style.maxHeight = '0';
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Update stored height on window resize
+            window.addEventListener('resize', () => {
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = 'none'; // Temporarily remove height constraint
+                    const newHeight = answer.scrollHeight;
+                    answer.style.maxHeight = answer.dataset.fullHeight;
+                    answer.dataset.fullHeight = newHeight + 'px';
+                    answer.style.maxHeight = answer.dataset.fullHeight;
+                } else {
+                    answer.style.maxHeight = 'none'; // Temporarily remove to measure
+                    answer.dataset.fullHeight = answer.scrollHeight + 'px';
+                    answer.style.maxHeight = '0';
+                }
+            });
+        });
+
+        // Auto-open first FAQ on page load
+        const firstFaq = document.getElementById('faq1');
+        if (firstFaq) {
+            // Trigger click after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                const firstQuestion = firstFaq.querySelector('.faq-question');
+                firstQuestion.click();
+            }, 500);
+        }
+
+    </script>
+    <script>
+        // Hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function () {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+
+                    // Prevent body scroll when menu is open
+                    if (navMenu.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+
+                // Close menu when clicking on a link
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function () {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function (event) {
+                    if (!hamburger.contains(event.target) && !navMenu.contains(event.target) &&
+                        navMenu.classList.contains('active')) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+
+            // Close menu on window resize (if resized to larger screen)
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) {
+                    const hamburger = document.getElementById('hamburger');
+                    const navMenu = document.getElementById('navMenu');
+
+                    if (hamburger && navMenu) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BotWala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/admin/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="/logo.png" alt="BotCraft Admin" style="width: 120px; height: auto;">
+                </div>
+            </div>
+            <div class="nav-section">
+                <h4 class="nav-section-title">Navigation</h4>
+                <ul class="sidebar-menu">
+                    <li class="active" onclick="showSection('overview')">
+                        <i class="fas fa-chart-line"></i> Overview
+                    </li>
+                    <li onclick="showSection('users')">
+                        <i class="fas fa-users"></i> Users
+                    </li>
+                    <li onclick="showSection('payments')">
+                        <i class="fas fa-credit-card"></i> Payments
+                    </li>
+                    <li onclick="showSection('analytics')">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </li>
+                    <li onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i> Settings
+                    </li>
+                    <li class="logout-btn" onclick="logout()">
+                        <a href="javascript:void(0)">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Dashboard Overview</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="adminAvatar">A</div>
+                    <span id="adminName">Admin</span>
+                </div>
+            </div>
+            <div class="content">
+
+                <!-- Overview Section -->
+                <div id="overviewSection" class="section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-users"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Users</h3>
+                                <p class="stat-value" id="totalUsers">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon icon-agents"><i class="fas fa-robot"></i></div>
+                            <div class="stat-info">
+                                <h3>AI Agents</h3>
+                                <p class="stat-value" id="totalAgents">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon icon-pro"><i class="fas fa-gem"></i></div>
+                            <div class="stat-info">
+                                <h3>Pro Users</h3>
+                                <p class="stat-value" id="proUsers">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon icon-business"><i class="fas fa-briefcase"></i></div>
+                            <div class="stat-info">
+                                <h3>Business Users</h3>
+                                <p class="stat-value" id="businessUsers">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h2 class="table-title">Recent Activity</h2>
+                                <div class="table-actions" style="display: flex; align-items: center; gap: 10px;">
+                                    <select id="timeFilter" onchange="applyActivityFilters()"
+                                        style="padding: 10px 16px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; outline: none;">
+                                        <option value="all">All Time</option>
+                                        <option value="month" id="optMonth">This Month</option>
+                                        <option value="week" id="optWeek">This Week</option>
+                                        <option value="day" id="optDay">Today</option>
+                                    </select>
+
+                                    <div class="filter-group">
+                                        <select id="activitySort" onchange="applyActivityFilters()"
+                                            style="padding: 10px 16px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; outline: none;">
+                                            <option value="newest">Newest First</option>
+                                            <option value="az">A to Z</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="recentActivity" class="activity-list">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="usersSection" class="section hidden">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">All Users</h2>
+                            <div class="header-search">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" id="userSearch" class="search-input" placeholder=" Search users..."
+                                    onkeyup="filterUsers()">
+                            </div>
+
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <!-- <th>Email</th> -->
+                                        <th>Plan</th>
+                                        <th>Agents</th>
+                                        <th>Messages</th>
+                                        <th>Files</th>
+                                        <th>Joined</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <tr>
+                                        <td colspan="9" style="text-align: center; padding: 40px;">
+                                            Loading users...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Section -->
+                <div id="paymentsSection" class="section hidden">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <p class="stat-value" id="totalRevenue">$0</p>
+                                <div class="stat-subtitle" id="totalRevenueSubtitle">This month: $0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Pro Plan Revenue</h3>
+                                <p class="stat-value" id="proRevenue">$0</p>
+                                <div class="stat-subtitle" id="proRevenueSubtitle">This month: $0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Business Revenue</h3>
+                                <p class="stat-value" id="businessRevenue">$0</p>
+                                <div class="stat-subtitle" id="businessRevenueSubtitle">This month: $0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3>Transactions</h3>
+                                <p class="stat-value" id="totalTransactions">0</p>
+                                <div class="stat-subtitle" id="transactionsSubtitle">This month: 0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">Payment History</h2>
+
+                            <div style="margin-left: auto; display: flex; gap: 10px; margin-right: 15px;">
+                                <select id="paymentFilter" onchange="filterPayments()"
+                                    style="padding: 10px 16px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; outline: none;">
+                                    <option value="all">All Payments</option>
+                                    <option value="az">A to Z</option>
+                                    <option value="pro">Pro Plan</option>
+                                    <option value="business">Business Plan</option>
+                                </select>
+
+                                <div class="search-box">
+                                    <input type="text" id="paymentSearch" placeholder="Search payments..."
+                                        onkeyup="filterPayments()"
+                                        style="padding: 10px 16px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; width: 250px;">
+                                </div>
+                            </div>
+
+                            <div class="table-actions">
+                                <button class="btn btn-outline" onclick="exportPayments()">
+                                    <i class="fas fa-download"></i>
+                                    Export
+                                </button>
+                                <button class="btn btn-primary sync-btn" onclick="syncPayments()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    Check Payments
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto min-w-[700px]">
+                            <table id="paymentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <!-- <th>Email</th> -->
+                                        <th>Plan</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsTableBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center; padding: 40px;">
+                                            Loading payments...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analyticsSection" class="section hidden">
+
+
+                    <div class="analytics-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">User Growth</h2>
+                                <div class="chart-period">
+                                    <button class="period-btn active">7D</button>
+                                    <button class="period-btn">1M</button>
+                                    <button class="period-btn">6M</button>
+                                    <button class="period-btn">1Y</button>
+                                </div>
+                            </div>
+
+                            <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+                                <canvas id="userGrowthChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Plan Distribution</h2>
+                            </div>
+                            <div class="plan-stats" id="analyticsPlanStats"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settingsSection" class="section hidden">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">System Settings</h2>
+                        </div>
+                        <div class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Admin Email</label>
+                                    <input type="email" id="adminEmail" class="form-control" readonly>
+                                </div>
+
+                                <p>
+                                    <i class="fas fa-info-circle"></i> Admin settings are managed
+                                    through
+                                    environment variables.
+                                </p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeUserModal()">&times;</span>
+            <h2>User Details</h2>
+            <div id="userDetails"></div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script>
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+
+            toast.innerHTML = `
+                <i class="fas ${icon} toast-icon"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    container.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        const API_URL = '';
+        let allUsers = [];
+        let allPayments = [];
+        let dashboardStats = {};
+
+        // Check admin authentication
+        async function checkAdmin() {
+            const token = sessionStorage.getItem('token');
+            const user = sessionStorage.getItem('user');
+
+            if (!token || !user) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/check-admin`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.is_admin) {
+                    // Not admin, redirect to regular dashboard
+                    window.location.href = '/dashboard';
+                    return;
+                }
+
+                // Load admin data
+                const userData = JSON.parse(user);
+                document.getElementById('adminName').textContent = userData.name;
+                document.getElementById('adminAvatar').textContent = userData.name.charAt(0).toUpperCase();
+                document.getElementById('adminEmail').value = data.email;
+
+                loadDashboardData();
+            } catch (error) {
+                console.error('Admin check error:', error);
+                window.location.href = '/index.html';
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            await loadUsers();
+            await loadPayments();
+            // updateStats called inside loadUsers
+        }
+
+        // Load all users
+        async function loadUsers() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    allUsers = data.users;
+                    dashboardStats = data.stats || {};
+                    displayUsers(allUsers);
+                    updateRecentActivity(allUsers);
+                    updateStats();
+                } else {
+                    console.error('Failed to load users:', data.error);
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        // Display users in table
+        function displayUsers(users) {
+            const tbody = document.getElementById('usersTableBody');
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 40px;">No users found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => {
+                const planBadge = getPlanBadge(user.plan);
+                const joinDate = new Date(user.created_at).toLocaleDateString();
+
+                return `
+                    <tr>
+                        <td><span style="font-weight: 700; color: #667eea;">#${user.id}</span></td>
+                        <td>
+                           
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar" style="width: 36px; height: 36px; font-size: 14px;">${user.name.charAt(0).toUpperCase()}</div>
+                                <div class="user-details">
+                                     <span class="username">${user.name}</span>
+                                <span class="usermail">${user.email}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>${planBadge}</td>
+                        <td style="text-align: center; font-weight: 600;">${user.agent_count}</td>
+                        <td style="text-align: center; font-weight: 600;">${user.message_count}</td>
+                        <td style="text-align: center; font-weight: 600;">${user.file_count}</td>
+                        <td style="font-size: 13px; color: #fff;">${joinDate}</td>
+                        <td>
+                            <div class="action-group">
+                                <button class="action-btn view-btn" onclick="viewUser(${user.id})" title="View Details">  <i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit-btn" onclick="editUser(${user.id})" title="Edit User">   <i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete-btn" onclick="deleteUser(${user.id})" title="Delete User"><i class="fas fa-trash"></i></button>
+                            </div>
+                           
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Get plan badge HTML
+        function getPlanBadge(plan) {
+            const badges = {
+                'free': '<span class="badge badge-free">Free</span>',
+                'pro': '<span class="badge badge-pro">Pro</span>',
+                'business': '<span class="badge badge-business">Business</span>'
+            };
+            return badges[plan] || badges['free'];
+        }
+
+        // Filter users
+        function filterUsers() {
+            const search = document.getElementById('userSearch').value.toLowerCase();
+            const filtered = allUsers.filter(user =>
+                user.name.toLowerCase().includes(search) ||
+                user.email.toLowerCase().includes(search) ||
+                user.id.toString().includes(search)
+            );
+            displayUsers(filtered);
+        }
+
+        // Update stats
+        function updateStats() {
+            const total = allUsers.length;
+            const proCount = allUsers.filter(u => u.plan === 'pro').length;
+            const businessCount = allUsers.filter(u => u.plan === 'business').length;
+            const totalAgents = allUsers.reduce((sum, u) => sum + u.agent_count, 0);
+
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('totalAgents').textContent = totalAgents;
+            document.getElementById('proUsers').textContent = proCount;
+            document.getElementById('businessUsers').textContent = businessCount;
+
+            // Update plan stats
+            const freeCount = allUsers.filter(u => u.plan === 'free').length;
+            const analyticsStatsContainer = document.getElementById('analyticsPlanStats');
+            if (analyticsStatsContainer) {
+                analyticsStatsContainer.innerHTML = `
+                <div class="plan-stat-item">
+                    <span class="badge badge-free">Free</span>
+                    <span class="plan-count">${freeCount} users</span>
+                </div>
+                <div class="plan-stat-item">
+                    <span class="badge badge-pro">Pro</span>
+                    <span class="plan-count">${proCount} users</span>
+                </div>
+                <div class="plan-stat-item">
+                    <span class="badge badge-business">Business</span>
+                    <span class="plan-count">${businessCount} users</span>
+                </div>
+            `;
+            }
+
+            updateFilterCounts();
+        }
+
+        // Update filter counts and Activity
+        function updateFilterCounts() {
+            const now = new Date();
+            const today = now.getDate();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            const getWeek = d => {
+                const onejan = new Date(d.getFullYear(), 0, 1);
+                return Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+            };
+            const currentWeek = getWeek(now);
+
+            let day = 0, week = 0, month = 0, year = 0;
+
+            allUsers.forEach(u => {
+                const d = new Date(u.created_at);
+                if (d.getFullYear() === currentYear) {
+                    year++;
+                    if (d.getMonth() === currentMonth) {
+                        month++;
+                        if (d.getDate() === today) day++;
+                    }
+                    if (getWeek(d) === currentWeek) week++;
+                }
+            });
+
+            document.getElementById('optMonth').textContent = `This Month (${month})`;
+            document.getElementById('optWeek').textContent = `This Week (${week})`;
+            document.getElementById('optDay').textContent = `Today (${day})`;
+        }
+
+        // Apply filters and sort
+        function applyActivityFilters() {
+            const timeFilter = document.getElementById('timeFilter').value;
+            const activitySortElem = document.getElementById('activitySort');
+            const sortMode = activitySortElem ? activitySortElem.value : 'newest';
+
+            let filtered = [...allUsers];
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+            const today = now.getDate();
+
+            const getWeek = d => {
+                const onejan = new Date(d.getFullYear(), 0, 1);
+                return Math.ceil((((d - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+            };
+            const currentWeek = getWeek(now);
+
+            if (timeFilter !== 'all') {
+                filtered = filtered.filter(u => {
+                    const d = new Date(u.created_at);
+                    if (d.getFullYear() !== currentYear) return false;
+
+                    if (timeFilter === 'year') return true;
+                    if (timeFilter === 'month') return d.getMonth() === currentMonth;
+                    if (timeFilter === 'week') return getWeek(d) === currentWeek;
+                    if (timeFilter === 'day') return d.getMonth() === currentMonth && d.getDate() === today;
+                    return true;
+                });
+            }
+
+            if (sortMode === 'az') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else {
+                filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            }
+
+            updateRecentActivity(filtered);
+        }
+
+        // Update recent activity
+        function updateRecentActivity(users) {
+            const recent = users.slice(0, 5);
+            const activityHtml = recent.map(user => {
+                const date = new Date(user.created_at);
+                const timeAgo = getTimeAgo(date);
+                return `
+                    <div class="activity-item">
+                        <div class="activity-avatar">${user.name.charAt(0)}</div>
+                        <div class="activity-info">
+                            <strong>${user.name}</strong> joined the platform
+                            <span class="activity-time">${timeAgo}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('recentActivity').innerHTML = activityHtml || '<p>No recent activity</p>';
+        }
+
+        // Get time ago
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            const intervals = {
+                year: 31536000,
+                month: 2592000,
+                week: 604800,
+                day: 86400,
+                hour: 3600,
+                minute: 60
+            };
+
+            for (let [unit, value] of Object.entries(intervals)) {
+                const interval = Math.floor(seconds / value);
+                if (interval >= 1) {
+                    return `${interval} ${unit}${interval > 1 ? 's' : ''} ago`;
+                }
+            }
+            return 'Just now';
+        }
+
+        // View user details
+        function viewUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            const expiryDate = user.plan_expires_at ? new Date(user.plan_expires_at).toLocaleDateString() : 'N/A';
+            const startDate = user.plan_start_date ? new Date(user.plan_start_date).toLocaleDateString() : 'N/A';
+
+            document.getElementById('userDetails').innerHTML = `
+                <div class="user-detail-grid">
+                    <div class="detail-row">
+                        <strong>User ID:</strong> ${user.id}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Name:</strong> ${user.name}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Email:</strong> ${user.email}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Plan:</strong> ${getPlanBadge(user.plan)}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Joined:</strong> ${new Date(user.created_at).toLocaleString()}
+                    </div>
+                    <div class="detail-row">
+                        <strong>AI Agents:</strong> ${user.agent_count}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Messages Used:</strong> ${user.message_count}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Files Uploaded:</strong> ${user.file_count}
+                    </div>
+                    ${user.plan !== 'free' ? `
+                    <div class="detail-row">
+                        <strong>Plan Started:</strong> ${startDate}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Plan Expires:</strong> ${expiryDate}
+                    </div>
+                    ` : ''}
+                </div>
+                <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="btn-small" onclick="editUser(${user.id})" style="background: linear-gradient(135deg, #10a37f 0%, #0d8968 100%);">✏️ Edit User</button>
+                    <button class="btn-small" onclick="deleteUser(${user.id})" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🗑️ Delete User</button>
+                </div>
+            `;
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        // Close user modal
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        // Show section
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+
+            const sectionMap = {
+                'overview': 'overviewSection',
+                'users': 'usersSection',
+                'payments': 'paymentsSection',
+                'analytics': 'analyticsSection',
+                'settings': 'settingsSection'
+            };
+
+            document.getElementById(sectionMap[section]).classList.remove('hidden');
+            event.target.classList.add('active');
+        }
+
+        // Load payments data
+        async function loadPayments() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/admin/payments`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    allPayments = data.payments;
+                    // Update revenue stats
+                    document.getElementById('totalRevenue').textContent = `$${data.total_revenue}`;
+                    document.getElementById('proRevenue').textContent = `$${data.pro_revenue}`;
+                    document.getElementById('businessRevenue').textContent = `$${data.business_revenue}`;
+                    document.getElementById('totalTransactions').textContent = data.total_transactions;
+
+                    // Calculate This Month stats
+                    const now = new Date();
+                    const currentMonth = now.getMonth();
+                    const currentYear = now.getFullYear();
+
+                    let monthTotal = 0;
+                    let monthPro = 0;
+                    let monthBusiness = 0;
+                    let monthTransactions = 0;
+
+                    data.payments.forEach(p => {
+                        const d = new Date(p.created_at);
+                        if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+                            const amount = parseFloat(p.amount) || 0;
+                            monthTotal += amount;
+                            monthTransactions++;
+                            if (p.plan === 'pro') monthPro += amount;
+                            if (p.plan === 'business') monthBusiness += amount;
+                        }
+                    });
+
+                    document.getElementById('totalRevenueSubtitle').textContent = `This month: $${monthTotal}`;
+                    document.getElementById('proRevenueSubtitle').textContent = `This month: $${monthPro}`;
+                    document.getElementById('businessRevenueSubtitle').textContent = `This month: $${monthBusiness}`;
+                    document.getElementById('transactionsSubtitle').textContent = `This month: ${monthTransactions}`;
+
+                    // Display payments table
+                    displayPayments(data.payments);
+                }
+            } catch (error) {
+                console.error('Error loading payments:', error);
+            }
+        }
+
+        // Display payments in table
+        function displayPayments(payments) {
+            const tbody = document.getElementById('paymentsTableBody');
+            if (payments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #fff;">No payments yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = payments.map(payment => {
+                const date = new Date(payment.created_at).toLocaleDateString();
+                const planBadge = getPlanBadge(payment.plan);
+                const statusBadge = payment.status === 'success'
+                    ? '<span style=" display: inline-flex; align-items: center; gap: 4px;"> <i class="fas fa-circle" style="font-size: 8px; color: #10b981;"></i>SUCCESS</span>'
+                    : '<span  style="display: inline-flex; align-items: center; gap: 4px;"><i class="fas fa-circle" style="font-size: 8px; color: #ef4444;"></i> FAILED</span>';
+
+                return `
+                    <tr>
+                        <td><span style="font-weight: 700; color: #667eea;">#${payment.id}</span></td>
+                        <td>
+                            
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar" style="width: 36px; height: 36px; font-size: 14px;">${payment.user_name ? payment.user_name.charAt(0).toUpperCase() : '?'}</div>
+                                <div class="user-details">
+                                     <span class="username">${payment.user_name || 'Unknown'}</span>
+                                <span class="usermail">${payment.user_email || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </td>
+                       
+                        <td>${planBadge}</td>
+                        <td style="font-weight: 700; color: #10a37f;">$${payment.amount}</td>
+                        <td class="whitespace-nowrap">${statusBadge}</td>
+                        <td style="font-size: 13px; color: #fff;">${date}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Sync existing payments
+        async function syncPayments() {
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/admin/sync-payments`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast(data.message, 'success');
+                    await loadPayments(); // Reload payments
+                } else {
+                    showToast('Error: ' + (data.error || 'Failed to sync'), 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Edit user
+        function editUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            const newName = prompt('Enter new name:', user.name);
+            if (newName && newName !== user.name) {
+                // Update user name logic here
+                alert(`User name will be updated to: ${newName}`);
+                // You can add API call here to update user
+            }
+        }
+
+        // Delete user
+        async function deleteUser(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            const confirmDelete = confirm(`Are you sure you want to delete user "${user.name}" (${user.email})?\n\nThis action cannot be undone!`);
+            if (!confirmDelete) return;
+
+            const token = sessionStorage.getItem('token');
+            try {
+                const response = await fetch(`${API_URL}/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    alert('User deleted successfully!');
+                    closeUserModal();
+                    await loadUsers();
+                    updateStats();
+                } else {
+                    const data = await response.json();
+                    alert('Failed to delete user: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error deleting user: ' + error.message);
+            }
+        }
+
+        // Logout
+        function logout() {
+            sessionStorage.clear();
+            window.location.replace('/');
+        }
+
+        // Initialize
+    </script>
+    <script>
+        // Sidebar toggle functionality
+        let sidebarVisible = window.innerWidth > 768;
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+
+            if (window.innerWidth <= 768) {
+                // Mobile: overlay toggle
+                sidebar.classList.toggle('show');
+                document.body.classList.toggle('sidebar-open');
+                menuToggle.innerHTML = sidebar.classList.contains('show') ?
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            } else {
+                // Desktop: sidebar collapse
+                sidebarVisible = !sidebarVisible;
+                sidebar.classList.toggle('collapsed');
+                document.querySelector('.main-content').classList.toggle('expanded');
+                menuToggle.innerHTML = sidebarVisible ?
+                    '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
+            }
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth <= 768 && sidebar.classList.contains('show') &&
+                !sidebar.contains(e.target) &&
+                e.target.id !== 'menuToggle' &&
+                !e.target.closest('#menuToggle')) {
+                toggleSidebar();
+            }
+        });
+
+        // Handle window resize
+        function handleResize() {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+
+            if (window.innerWidth > 768) {
+                // Desktop mode
+                sidebar.classList.remove('show');
+                document.body.classList.remove('sidebar-open');
+                sidebarVisible = true;
+                sidebar.classList.remove('collapsed');
+                document.querySelector('.main-content').classList.remove('expanded');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            } else {
+                // Mobile mode
+                sidebar.classList.remove('show', 'collapsed');
+                document.body.classList.remove('sidebar-open');
+                sidebarVisible = false;
+                document.querySelector('.main-content').classList.remove('expanded');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', handleResize);
+        window.addEventListener('resize', handleResize);
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar.classList.contains('show')) toggleSidebar();
+            }
+        });
+
+        // Navigate sections and close sidebar on mobile
+        function showSection(section) {
+            if (window.innerWidth <= 768) toggleSidebar();
+
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+
+            const sections = {
+                'overview': 'overviewSection',
+                'users': 'usersSection',
+                'payments': 'paymentsSection',
+                'analytics': 'analyticsSection',
+                'settings': 'settingsSection'
+            };
+
+            const target = document.getElementById(sections[section]);
+            if (target) target.classList.remove('hidden');
+
+            event.target.closest('li').classList.add('active');
+        }
+
+
+        // Export payments to CSV
+        function exportPayments() {
+            if (allPayments.length === 0) {
+                alert('No payments to export');
+                return;
+            }
+
+            const headers = ['ID', 'User Name', 'User Email', 'Plan', 'Amount', 'Currency', 'Status', 'Date', 'Transaction ID'];
+            const csvRows = [headers.join(',')];
+
+            allPayments.forEach(p => {
+                const row = [
+                    p.id,
+                    `"${(p.user_name || '').replace(/"/g, '""')}"`,
+                    `"${(p.user_email || '').replace(/"/g, '""')}"`,
+                    p.plan,
+                    p.amount,
+                    "USD",
+                    p.status,
+                    `"${new Date(p.created_at).toLocaleString()}"`,
+                    `"${(p.razorpay_payment_id || '').replace(/"/g, '""')}"`
+                ];
+                csvRows.push(row.join(','));
+            });
+
+            const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `payments_export_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+
+        // Filter payments
+        function filterPayments() {
+            const search = document.getElementById('paymentSearch').value.toLowerCase();
+            const filterValue = document.getElementById('paymentFilter').value;
+
+            let filtered = allPayments.filter(payment =>
+                (payment.user_name && payment.user_name.toLowerCase().includes(search)) ||
+                (payment.user_email && payment.user_email.toLowerCase().includes(search)) ||
+                (payment.razorpay_payment_id && payment.razorpay_payment_id.toLowerCase().includes(search)) ||
+                payment.id.toString().includes(search) ||
+                payment.amount.toString().includes(search)
+            );
+
+            // Apply Plan Filter
+            if (filterValue === 'pro') {
+                filtered = filtered.filter(p => p.plan === 'pro');
+            } else if (filterValue === 'business') {
+                filtered = filtered.filter(p => p.plan === 'business');
+            }
+
+            // Apply Sorting
+            if (filterValue === 'az') {
+                filtered.sort((a, b) => {
+                    const nameA = a.user_name || '';
+                    const nameB = b.user_name || '';
+                    return nameA.localeCompare(nameB);
+                });
+            }
+
+            displayPayments(filtered);
+        }
+
+        // Initialize User Growth Chart
+        let growthChart;
+
+        function initUserGrowthChart(period = '7D') {
+            const ctx = document.getElementById('userGrowthChart').getContext('2d');
+
+            // Process data based on period
+            const { labels, data } = processUserGrowthData(period);
+
+            if (growthChart) {
+                growthChart.destroy();
+            }
+
+            // Create gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(124, 58, 237, 0.5)');
+            gradient.addColorStop(1, 'rgba(124, 58, 237, 0.0)');
+
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'New Users',
+                        data: data,
+                        borderColor: '#7c3aed',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#7c3aed',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#cbd5e1',
+                            borderColor: '#334155',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#94a3b8',
+                                stepSize: 1
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                }
+            });
+        }
+
+        // Process user growth data
+        function processUserGrowthData(period) {
+            const now = new Date();
+            let labels = [];
+            let data = [];
+
+            if (period === '7D') {
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date(now);
+                    d.setDate(d.getDate() - i);
+                    labels.push(d.toLocaleDateString('en-US', { weekday: 'short' }));
+
+                    const count = allUsers.filter(u => {
+                        const ud = new Date(u.created_at);
+                        return ud.getDate() === d.getDate() &&
+                            ud.getMonth() === d.getMonth() &&
+                            ud.getFullYear() === d.getFullYear();
+                    }).length;
+                    data.push(count);
+                }
+            } else if (period === '1M') {
+                for (let i = 29; i >= 0; i--) {
+                    const d = new Date(now);
+                    d.setDate(d.getDate() - i);
+                    if (i % 5 === 0) labels.push(d.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }));
+                    else labels.push('');
+
+                    const count = allUsers.filter(u => {
+                        const ud = new Date(u.created_at);
+                        return ud.getDate() === d.getDate() &&
+                            ud.getMonth() === d.getMonth() &&
+                            ud.getFullYear() === d.getFullYear();
+                    }).length;
+                    data.push(count);
+                }
+            } else if (period === '6M') {
+                for (let i = 5; i >= 0; i--) {
+                    const d = new Date(now);
+                    d.setMonth(d.getMonth() - i);
+                    labels.push(d.toLocaleDateString('en-US', { month: 'short' }));
+
+                    const count = allUsers.filter(u => {
+                        const ud = new Date(u.created_at);
+                        return ud.getMonth() === d.getMonth() &&
+                            ud.getFullYear() === d.getFullYear();
+                    }).length;
+                    data.push(count);
+                }
+            } else if (period === '1Y') {
+                for (let i = 11; i >= 0; i--) {
+                    const d = new Date(now);
+                    d.setMonth(d.getMonth() - i);
+                    labels.push(d.toLocaleDateString('en-US', { month: 'short' }));
+
+                    const count = allUsers.filter(u => {
+                        const ud = new Date(u.created_at);
+                        return ud.getMonth() === d.getMonth() &&
+                            ud.getFullYear() === d.getFullYear();
+                    }).length;
+                    data.push(count);
+                }
+            }
+
+            return { labels, data };
+        }
+
+        // Add event listeners for chart period buttons
+        document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                initUserGrowthChart(e.target.textContent);
+            });
+        });
+
+        // Update Analytics Stats
+        function updateAnalyticsStats() {
+            // Plan Distribution inside Analytics Section
+            const freeCount = allUsers.filter(u => u.plan === 'free').length;
+            const proCount = allUsers.filter(u => u.plan === 'pro').length;
+            const businessCount = allUsers.filter(u => u.plan === 'business').length;
+
+            // Use the specific ID for analytics section to avoid conflict
+            const analyticsStatsContainer = document.getElementById('analyticsPlanStats');
+            if (analyticsStatsContainer) {
+                analyticsStatsContainer.innerHTML = `
+                    <div class="plan-stat-item">
+                        <span class="badge badge-free">Free</span>
+                        <span class="plan-count">${freeCount} users</span>
+                    </div>
+                    <div class="plan-stat-item">
+                        <span class="badge badge-pro">Pro</span>
+                        <span class="plan-count">${proCount} users</span>
+                    </div>
+                    <div class="plan-stat-item">
+                        <span class="badge badge-business">Business</span>
+                        <span class="plan-count">${businessCount} users</span>
+                    </div>
+                `;
+            }
+
+            // Initialize chart if we are on analytics section or just init it generally
+            // Ideally should check visibility but init is cheap enough
+            initUserGrowthChart(document.querySelector('.period-btn.active').textContent);
+        }
+
+        // Hook into existing loadUsers to update analytics
+        // We override the original updateStats to also call our new function
+        if (typeof originalUpdateAnalyticsHook === 'undefined') {
+            // Store original function only once to prevent recursion if re-run
+            var originalUpdateAnalyticsHook = updateStats;
+            updateStats = function () {
+                originalUpdateAnalyticsHook(); // Call original updates (Overview cards etc)
+                updateAnalyticsStats();        // Call new analytics updates
+            };
+        }
+
+
+        // Initialize
+        checkAdmin();
+    </script>
+</body>
+
+</html>
