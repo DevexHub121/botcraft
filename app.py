@@ -40,7 +40,7 @@ OTP_EXPIRY_MINUTES = 5
 
 # Create uploads folder
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
- 
+
 # Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY)
 
