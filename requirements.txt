@@ -20,3 +20,6 @@ google-auth-oauthlib>=1.0.0
 
 # Payment Gateway
 razorpay>=1.4.0
+
+# WSGI Server for Production
+gunicorn>=20.1.0
