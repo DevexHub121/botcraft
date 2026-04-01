@@ -961,7 +961,7 @@
         // Google Sign-In handler
         async function signInWithGoogle() {
             try {
-                const response = await fetch('https://botcraft.devexhub.com/auth/google/callback');
+                const response = await fetch('/auth/google');
                 const data = await response.json();
 
                 if (data.url) {
